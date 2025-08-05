@@ -14,10 +14,8 @@ const javascriptTerms: Term[] = [
         id: "closure-1",
         title: "JavaScript Closures Explained - My Tutorial",
         url: "https://youtu.be/3a0I8ICR1Vg",
-        type: "personal",
+        type: "youtube",
         duration: "12:34",
-        description:
-          "My personal explanation of closures with practical examples",
       },
       {
         id: "closure-2",
@@ -25,14 +23,6 @@ const javascriptTerms: Term[] = [
         url: "https://youtu.be/CQqwU2Ixu-U",
         type: "youtube",
         duration: "16:23",
-        description: "Great explanation of closures in JavaScript",
-      },
-      {
-        id: "closure-3",
-        title: "MDN Web Docs - Closures",
-        url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
-        type: "documentation",
-        description: "Official documentation on JavaScript closures",
       },
     ],
   },
@@ -46,16 +36,13 @@ const javascriptTerms: Term[] = [
         id: "hoisting-1",
         title: "Understanding Hoisting - My Deep Dive",
         url: "https://youtu.be/Fnlnw8uY6jo",
-        type: "personal",
-        duration: "15:42",
-        description: "My comprehensive guide to JavaScript hoisting",
+        type: "youtube",
       },
       {
         id: "hoisting-2",
         title: "JavaScript Hoisting Explained",
         url: "https://youtu.be/EvfRXyKa_GI",
         type: "youtube",
-        duration: "8:15",
       },
     ],
   },
@@ -69,8 +56,8 @@ const javascriptTerms: Term[] = [
         id: "async-1",
         title: "Async/Await Explained - My Tutorial",
         url: "https://youtu.be/V_Kr9OSfDeU",
-        type: "personal",
-        duration: "18:45",
+        type: "youtube",
+
         description: "Master asynchronous JavaScript programming",
       },
       {
@@ -78,7 +65,6 @@ const javascriptTerms: Term[] = [
         title: "JavaScript Promises and Async/Await",
         url: "https://youtu.be/PoRJizFvM7s",
         type: "youtube",
-        duration: "22:15",
       },
     ],
   },
@@ -97,8 +83,8 @@ const javascriptTerms: Term[] = [
         id: "ts-1",
         title: "TypeScript Crash Course - My Tutorial",
         url: "https://youtu.be/BwuLxPH8IDs",
-        type: "personal",
-        duration: "55:30",
+        type: "youtube",
+
         description: "Learn TypeScript from beginner to advanced",
       },
     ],
@@ -120,7 +106,7 @@ const javascriptTerms: Term[] = [
     category: "JavaScript",
   },
   {
-    term: "eventloop",
+    term: "event loop",
     definition:
       "The mechanism that handles asynchronous operations in JavaScript",
     category: "JavaScript",
@@ -147,7 +133,7 @@ const javascriptTerms: Term[] = [
 // React Terms
 const reactTerms: Term[] = [
   {
-    term: "virtualdom",
+    term: "virtual dom",
     definition:
       "A programming concept where a virtual representation of the UI is kept in memory",
     category: "React",
@@ -156,22 +142,13 @@ const reactTerms: Term[] = [
         id: "vdom-1",
         title: "Virtual DOM Explained - My React Series",
         url: "https://youtu.be/BYbgopx44vo",
-        type: "personal",
-        duration: "18:30",
-        description: "Part of my React fundamentals series",
+        type: "youtube",
       },
       {
         id: "vdom-2",
         title: "React Virtual DOM Tutorial",
         url: "https://youtu.be/jwRAdGLUarw",
         type: "youtube",
-        duration: "22:45",
-      },
-      {
-        id: "vdom-3",
-        title: "React Docs - Virtual DOM",
-        url: "https://reactjs.org/docs/faq-internals.html",
-        type: "documentation",
       },
     ],
   },
@@ -185,16 +162,13 @@ const reactTerms: Term[] = [
         id: "state-1",
         title: "React State Management - My Complete Guide",
         url: "https://youtu.be/35lXWvCuM8o",
-        type: "personal",
-        duration: "30:45",
-        description: "Everything about state in React applications",
+        type: "youtube",
       },
       {
         id: "state-2",
         title: "useState Hook Explained",
         url: "https://youtu.be/O6P86uwfdR0",
         type: "youtube",
-        duration: "15:20",
       },
     ],
   },
@@ -208,8 +182,8 @@ const reactTerms: Term[] = [
         id: "component-1",
         title: "React Components Masterclass - My Series",
         url: "https://youtu.be/Tn6-PIqc4OM",
-        type: "personal",
-        duration: "28:20",
+        type: "youtube",
+
         description: "Everything about React components",
       },
     ],
@@ -224,8 +198,8 @@ const reactTerms: Term[] = [
         id: "jsx-1",
         title: "JSX Deep Dive - My React Basics",
         url: "https://youtu.be/7fPXI_MnBOY",
-        type: "personal",
-        duration: "14:30",
+        type: "youtube",
+
         description: "Understanding JSX syntax and best practices",
       },
     ],
@@ -245,8 +219,8 @@ const reactTerms: Term[] = [
         id: "hooks-1",
         title: "React Hooks Complete Guide - My Series",
         url: "https://youtu.be/TNhaISOUy6Q",
-        type: "personal",
-        duration: "42:15",
+        type: "youtube",
+
         description: "Complete guide to all React hooks",
       },
     ],
@@ -257,7 +231,7 @@ const reactTerms: Term[] = [
     category: "React",
   },
   {
-    term: "reactquery",
+    term: "react query",
     definition: "A data-fetching library for React that manages server state",
     category: "React",
   },
@@ -298,8 +272,8 @@ const frontendTerms: Term[] = [
         id: "responsive-1",
         title: "Responsive Design Masterclass - My Tutorial",
         url: "https://youtu.be/srvUrASNdxk",
-        type: "personal",
-        duration: "35:15",
+        type: "youtube",
+
         description: "Everything you need to know about responsive design",
       },
       {
@@ -307,7 +281,6 @@ const frontendTerms: Term[] = [
         title: "CSS Grid and Flexbox for Responsive Design",
         url: "https://youtu.be/jV8B24rSN5o",
         type: "youtube",
-        duration: "28:45",
       },
     ],
   },
@@ -320,8 +293,8 @@ const frontendTerms: Term[] = [
         id: "webpack-1",
         title: "Webpack From Scratch - My Tutorial Series",
         url: "https://youtu.be/MpGLUVbqoYQ",
-        type: "personal",
-        duration: "52:30",
+        type: "youtube",
+
         description: "Learn Webpack from the ground up",
       },
     ],
@@ -339,7 +312,7 @@ const frontendTerms: Term[] = [
     category: "Frontend",
   },
   {
-    term: "flexbox",
+    term: "flex box",
     definition: "A CSS layout mode that arranges items in rows or columns",
     category: "Frontend",
   },
@@ -350,7 +323,7 @@ const frontendTerms: Term[] = [
     category: "Frontend",
   },
   {
-    term: "webpackplugin",
+    term: "webpack plugin",
     definition: "Custom functionality added to Webpack's build process",
     category: "Frontend",
   },
@@ -373,7 +346,7 @@ const frontendTerms: Term[] = [
     category: "Frontend",
   },
   {
-    term: "tree-shaking",
+    term: "tree shaking",
     definition: "Eliminating dead code during the build process",
     category: "Frontend",
   },
@@ -405,7 +378,7 @@ const frontendTerms: Term[] = [
 // Backend Terms
 const backendTerms: Term[] = [
   {
-    term: "restapi",
+    term: "rest api",
     definition:
       "Representational State Transfer - an architectural style for designing networked applications",
     category: "Backend",
@@ -414,8 +387,8 @@ const backendTerms: Term[] = [
         id: "rest-1",
         title: "Building REST APIs - My Complete Guide",
         url: "https://youtu.be/0oXYLzuucwE",
-        type: "personal",
-        duration: "45:20",
+        type: "youtube",
+
         description: "Complete tutorial on building REST APIs from scratch",
       },
       {
@@ -423,7 +396,6 @@ const backendTerms: Term[] = [
         title: "What is REST API?",
         url: "https://youtu.be/lsMQRaeKNDk",
         type: "youtube",
-        duration: "12:30",
       },
     ],
   },
@@ -437,8 +409,8 @@ const backendTerms: Term[] = [
         id: "middleware-1",
         title: "Express Middleware Deep Dive - My Tutorial",
         url: "https://youtu.be/lY6icfhap2o",
-        type: "personal",
-        duration: "20:15",
+        type: "youtube",
+
         description: "Understanding middleware in Express.js",
       },
     ],
@@ -473,7 +445,7 @@ const backendTerms: Term[] = [
     category: "Backend",
   },
   {
-    term: "apiendpoint",
+    term: "api endpoint",
     definition:
       "A specific URL where an API can be accessed by a client application",
     category: "Backend",
@@ -521,7 +493,7 @@ const backendTerms: Term[] = [
     category: "Backend",
   },
   {
-    term: "loadbalancer",
+    term: "load balancer",
     definition: "Distributes incoming network traffic across multiple servers",
     category: "Backend",
   },
@@ -532,15 +504,15 @@ const interviewTerms: Term[] = [
   {
     term: "bigO",
     definition:
-      "Mathematical notation describing the limiting behavior of a function",
+      "Mathematical notation describing the limiting behavior of a function as input size approaches infinity",
     category: "Interview",
     resources: [
       {
         id: "bigo-1",
         title: "Big O Notation Interview Prep - My Series",
         url: "https://youtu.be/v4cd1O4zkGw",
-        type: "personal",
-        duration: "25:30",
+        type: "youtube",
+
         description: "Essential Big O concepts for coding interviews",
       },
       {
@@ -548,62 +520,392 @@ const interviewTerms: Term[] = [
         title: "Big O Notation - CS Dojo",
         url: "https://youtu.be/D6xkbGLQesk",
         type: "youtube",
-        duration: "11:27",
+
+        description: "Clear explanation of time and space complexity",
       },
     ],
   },
   {
     term: "algorithm",
-    definition: "A step-by-step procedure for calculations and data processing",
+    definition:
+      "A step-by-step procedure for solving a problem or performing calculations",
     category: "Interview",
     resources: [
       {
         id: "algo-1",
         title: "Algorithm Interview Prep - My Bootcamp",
         url: "https://youtu.be/8hly31xKli0",
-        type: "personal",
-        duration: "1:15:30",
+        type: "youtube",
+
         description: "Complete algorithm preparation for interviews",
+      },
+      {
+        id: "algo-2",
+        title: "Top 50 Interview Algorithms",
+        url: "https://youtu.be/KEEKn7Me-ms",
+        type: "youtube",
+
+        description: "Most common algorithms asked in interviews",
       },
     ],
   },
   {
     term: "recursion",
     definition:
-      "A function that calls itself to solve a smaller instance of the same problem",
+      "A programming technique where a function calls itself to solve smaller instances of the same problem",
     category: "Interview",
     resources: [
       {
         id: "recursion-1",
         title: "Recursion Made Simple - My Tutorial",
         url: "https://youtu.be/KEEKn7Me-ms",
-        type: "personal",
-        duration: "20:45",
+        type: "youtube",
+
         description: "Master recursion with practical examples",
+      },
+      {
+        id: "recursion-2",
+        title: "Recursion Interview Questions",
+        url: "https://youtu.be/ngCos392W4w",
+        type: "youtube",
+
+        description: "Common recursion problems in coding interviews",
+      },
+    ],
+  },
+  {
+    term: "data structure",
+    definition:
+      "A way of organizing and storing data to enable efficient access and modification",
+    category: "Interview",
+    resources: [
+      {
+        id: "ds-1",
+        title: "Data Structures Crash Course - My Series",
+        url: "https://youtu.be/RBSGKlAvoiM",
+        type: "youtube",
+
+        description: "Complete guide to essential data structures",
+      },
+      {
+        id: "ds-2",
+        title: "Data Structures for Coding Interviews",
+        url: "https://youtu.be/uhYq27iSk9s",
+        type: "youtube",
+
+        description: "Most important data structures for technical interviews",
+      },
+    ],
+  },
+  {
+    term: "binary tree",
+    definition:
+      "A hierarchical data structure where each node has at most two children",
+    category: "Interview",
+    resources: [
+      {
+        id: "tree-1",
+        title: "Binary Tree Interview Problems - My Deep Dive",
+        url: "https://youtu.be/fAAZixBzIAI",
+        type: "youtube",
+
+        description: "Essential tree algorithms for coding interviews",
+      },
+      {
+        id: "tree-2",
+        title: "Tree Traversal Algorithms",
+        url: "https://youtu.be/9RHO6jU--GU",
+        type: "youtube",
+
+        description: "In-order, pre-order, and post-order traversals",
+      },
+    ],
+  },
+  {
+    term: "linked list",
+    definition:
+      "A linear data structure where elements are stored in nodes, each pointing to the next",
+    category: "Interview",
+    resources: [
+      {
+        id: "ll-1",
+        title: "Linked List Interview Prep - My Tutorial",
+        url: "https://youtu.be/njTh_OwMljA",
+        type: "youtube",
+
+        description: "Master linked list problems for interviews",
+      },
+    ],
+  },
+  {
+    term: "hash table",
+    definition:
+      "A data structure that implements an associative array using a hash function to compute bucket indices",
+    category: "Interview",
+    resources: [
+      {
+        id: "hash-1",
+        title: "Hash Tables Explained - My Guide",
+        url: "https://youtu.be/shs0KM3wKv8",
+        type: "youtube",
+
+        description: "Understanding hash tables and collision handling",
+      },
+    ],
+  },
+  {
+    term: "stack",
+    definition:
+      "A linear data structure that follows Last In First Out (LIFO) principle",
+    category: "Interview",
+    resources: [
+      {
+        id: "stack-1",
+        title: "Stack and Queue Interview Problems",
+        url: "https://youtu.be/wjI1WNcIntg",
+        type: "youtube",
+
+        description: "Common stack problems in coding interviews",
+      },
+    ],
+  },
+  {
+    term: "queue",
+    definition:
+      "A linear data structure that follows First In First Out (FIFO) principle",
+    category: "Interview",
+  },
+  {
+    term: "graph",
+    definition:
+      "A non-linear data structure consisting of vertices connected by edges",
+    category: "Interview",
+    resources: [
+      {
+        id: "graph-1",
+        title: "Graph Algorithms for Interviews - My Series",
+        url: "https://youtu.be/tWVWeAqZ0WU",
+        type: "youtube",
+
+        description: "BFS, DFS, and shortest path algorithms",
+      },
+    ],
+  },
+  {
+    term: "dynamic programming",
+    definition:
+      "An optimization technique that solves complex problems by breaking them into simpler subproblems",
+    category: "Interview",
+    resources: [
+      {
+        id: "dp-1",
+        title: "Dynamic Programming Mastery - My Complete Course",
+        url: "https://youtu.be/oBt53YbR9Kk",
+        type: "youtube",
+
+        description: "From beginner to advanced DP problems",
+      },
+      {
+        id: "dp-2",
+        title: "DP Interview Questions",
+        url: "https://youtu.be/aPQY__2H3tE",
+        type: "youtube",
+
+        description: "Most common DP problems in technical interviews",
+      },
+    ],
+  },
+  {
+    term: "binary search",
+    definition:
+      "An efficient algorithm for finding an item in a sorted array by repeatedly dividing the search interval in half",
+    category: "Interview",
+    resources: [
+      {
+        id: "bs-1",
+        title: "Binary Search Interview Patterns - My Guide",
+        url: "https://youtu.be/GU7DpgHINWQ",
+        type: "youtube",
+
+        description: "Master all binary search variations",
+      },
+    ],
+  },
+  {
+    term: "two pointers",
+    definition:
+      "A technique using two pointers moving through data structure to solve problems efficiently",
+    category: "Interview",
+    resources: [
+      {
+        id: "tp-1",
+        title: "Two Pointers Technique - My Tutorial",
+        url: "https://youtu.be/jFZmBQ569So",
+        type: "youtube",
+
+        description: "Essential two-pointer problems for interviews",
+      },
+    ],
+  },
+  {
+    term: "sliding window",
+    definition:
+      "A technique for solving array/string problems by maintaining a window of elements",
+    category: "Interview",
+    resources: [
+      {
+        id: "sw-1",
+        title: "Sliding Window Pattern - My Deep Dive",
+        url: "https://youtu.be/MK-NZ4hN7rs",
+        type: "youtube",
+
+        description: "Master the sliding window technique",
+      },
+    ],
+  },
+  {
+    term: "greedy algorithm",
+    definition:
+      "An approach that makes locally optimal choices at each step, hoping to find a global optimum",
+    category: "Interview",
+  },
+  {
+    term: "backtracking",
+    definition:
+      "An algorithmic approach that incrementally builds solutions and abandons those that fail to satisfy constraints",
+    category: "Interview",
+    resources: [
+      {
+        id: "bt-1",
+        title: "Backtracking Algorithm Patterns",
+        url: "https://youtu.be/Zq4upTEaQyM",
+        type: "youtube",
+
+        description: "Common backtracking problems and solutions",
       },
     ],
   },
   {
     term: "hashing",
     definition:
-      "Process of converting data into a fixed-size string of characters",
+      "Process of converting data into a fixed-size string of characters using a hash function",
+    category: "Interview",
+  },
+  {
+    term: "sorting algorithm",
+    definition:
+      "An algorithm that puts elements in a certain order (numerical, lexicographical, etc.)",
+    category: "Interview",
+    resources: [
+      {
+        id: "sort-1",
+        title: "Sorting Algorithms Explained - My Guide",
+        url: "https://youtu.be/kPRA0W1kECg",
+        type: "youtube",
+
+        description: "Quick sort, merge sort, and heap sort explained",
+      },
+    ],
+  },
+  {
+    term: "time complexity",
+    definition:
+      "A measure of the amount of time an algorithm takes to complete as a function of input size",
+    category: "Interview",
+  },
+  {
+    term: "space complexity",
+    definition:
+      "A measure of the amount of memory space an algorithm uses as a function of input size",
     category: "Interview",
   },
   {
     term: "singleton",
-    definition: "A class of which only one instance can exist",
+    definition:
+      "A design pattern that ensures a class has only one instance and provides global access to it",
+    category: "Interview",
+    resources: [
+      {
+        id: "singleton-1",
+        title: "Design Patterns for Interviews",
+        url: "https://youtu.be/v9ejT8FO-7I",
+        type: "youtube",
+
+        description: "Essential design patterns in coding interviews",
+      },
+    ],
+  },
+  {
+    term: "heap",
+    definition:
+      "A specialized tree-based data structure that satisfies the heap property",
+    category: "Interview",
+  },
+  {
+    term: "trie",
+    definition:
+      "A tree-like data structure used to store strings, where each node represents a single character",
+    category: "Interview",
+  },
+  {
+    term: "bit manipulation",
+    definition:
+      "Algorithmic manipulation of bits or binary digits, often used for optimization",
+    category: "Interview",
+    resources: [
+      {
+        id: "bit-1",
+        title: "Bit Manipulation Tricks - My Tutorial",
+        url: "https://youtu.be/NLKQEOgBAnw",
+        type: "youtube",
+
+        description: "Essential bit manipulation for coding interviews",
+      },
+    ],
+  },
+  {
+    term: "memoization",
+    definition:
+      "An optimization technique storing results of expensive function calls and returning cached results",
     category: "Interview",
   },
   {
     term: "runtime",
-    definition: "The environment in which code is executed",
+    definition:
+      "The environment in which code is executed, or the time taken for code execution",
     category: "Interview",
   },
   {
     term: "git",
     definition:
-      "A distributed version control system for tracking changes in code",
+      "A distributed version control system for tracking changes in source code during software development",
     category: "Interview",
+    resources: [
+      {
+        id: "git-1",
+        title: "Git Interview Questions - My Prep Guide",
+        url: "https://youtu.be/SWYqp7iY_Tc",
+        type: "youtube",
+
+        description: "Essential Git concepts for technical interviews",
+      },
+    ],
+  },
+  {
+    term: "system design",
+    definition:
+      "The process of defining architecture, components, and interfaces for large-scale systems",
+    category: "Interview",
+    resources: [
+      {
+        id: "sd-1",
+        title: "System Design Interview Prep - My Course",
+        url: "https://youtu.be/UzLMhqg3_Wc",
+        type: "youtube",
+
+        description: "Complete system design interview preparation",
+      },
+    ],
   },
 ];
 
@@ -824,13 +1126,13 @@ const aiTerms: Term[] = [
     category: "AI",
   },
   {
-    term: "overfitting",
+    term: "over fitting",
     definition:
       "When a model learns the training data too well, including noise, and performs poorly on new data",
     category: "AI",
   },
   {
-    term: "underfitting",
+    term: "under fitting",
     definition:
       "When a model fails to learn enough from the training data and performs poorly on both training and new data",
     category: "AI",
@@ -848,7 +1150,7 @@ const aiTerms: Term[] = [
     category: "AI",
   },
   {
-    term: "fine-tuning",
+    term: "fine tuning",
     definition:
       "Customizing a pre-trained AI model with new data to make it perform better on a specific task",
     category: "AI",
@@ -872,7 +1174,7 @@ const aiTerms: Term[] = [
     category: "AI",
   },
   {
-    term: "zero-shot learning",
+    term: "zero shot learning",
     definition:
       "When a model correctly performs a task it wasn’t specifically trained on, using generalization from related tasks",
     category: "AI",

@@ -33,6 +33,14 @@ export interface Stats {
   correctWords: number;
   timeRemaining: number;
   wordsCompleted: number;
+  
+  // Enhanced stats for Net WPM calculation
+  totalCharacters?: number; // Total characters typed
+  correctCharacters?: number; // Characters typed correctly
+  incorrectCharacters?: number; // Characters typed incorrectly
+  uncorrectedErrors?: number; // Errors not corrected (for Net WPM)
+  elapsedTime?: number; // Time elapsed in seconds
+  sessionDuration?: number; // Total session duration in seconds
 }
 
-export type SessionDuration = 30 | 60 | 120; // seconds
+export type SessionDuration = 60 | 120 | 180; // seconds

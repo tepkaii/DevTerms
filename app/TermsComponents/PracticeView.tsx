@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-
 import { useRouter } from "next/navigation";
 import TypingArea from "./TypingArea";
 import StatsPanel from "./StatsPanel";
@@ -170,7 +169,7 @@ const PracticeView: React.FC<PracticeViewProps> = ({
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <header className="flex items-center justify-between mb-10">
+        <header className="flex items-center justify-between mb-10 select-none">
           <Link href="/" className="flex items-center gap-2">
             <Image
               src="/dt-logo.png"
@@ -184,7 +183,7 @@ const PracticeView: React.FC<PracticeViewProps> = ({
           </Link>
 
           <Button variant="secondary" size="sm" className="text-lg px-4 py-2">
-            {category} • {duration}s
+            {category} Terms • {duration}s
           </Button>
         </header>
 

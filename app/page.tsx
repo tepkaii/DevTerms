@@ -1,6 +1,5 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
 import { ArrowArchery, LightBulbOn } from "iconoir-react";
 import HomePage from "./TermsComponents/HomePage";
 import type { Metadata } from "next";
@@ -9,22 +8,38 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "DevTerms - Practice Developer Terms Typing",
+  title: "DevTerms – Practice Developer Terms Typing",
   description:
-    "Practice typing developer terms with timed sessions to improve coding vocabulary and typing speed.",
+    "Practice typing developer terms in real sentences to boost your coding vocabulary and typing speed. Improve your fluency and understanding of software terminology.",
+  metadataBase: new URL("https://devterms.site"),
+
   openGraph: {
-    type: "website",
-    title: "DevTerms - Practice Developer Terms Typing",
+    title: "DevTerms – Practice Developer Terms Typing",
     description:
-      "Practice typing developer terms with timed sessions to improve coding vocabulary and typing speed.",
+      "Boost your typing speed and programming vocabulary with real-time developer term practice.",
+    url: "https://devterms.site",
+    siteName: "DevTerms",
+    type: "website",
+    locale: "en",
   },
   twitter: {
     card: "summary_large_image",
-    title: "DevTerms - Practice Developer Terms Typing",
+    title: "DevTerms – Practice Developer Terms Typing",
     description:
-      "Practice typing developer terms with timed sessions to improve coding vocabulary and typing speed.",
+      "Boost your typing speed and programming vocabulary with real-time developer term practice.",
+    creator: "@tepkaii",
   },
-  viewport: "width=device-width, initial-scale=1.0",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 // Server-side rendered main page
@@ -44,7 +59,10 @@ export default function MainPage() {
           />{" "}
           <h1 className="text-xl font-bold text-foreground">DevTerms</h1>{" "}
         </Link>
-        <Button variant={"secondary"}>Support</Button>
+        <Link target="_blank" href="https://x.com/tepkaii">
+          {" "}
+          <Button variant={"secondary"}>Support</Button>{" "}
+        </Link>
       </header>
 
       <div>
@@ -54,30 +72,6 @@ export default function MainPage() {
             while improving your typing speed!
           </p>
         </div>
-
-        {/* Preview Example */}
-        <Card className="mb-8 border-border">
-          <CardContent className="pt-6">
-            <p className="text-center font-mono text-lg text-foreground">
-              The{" "}
-              <span className="bg-yellow-200 text-yellow-700 border-yellow-400 px-1 rounded border">
-                component
-              </span>{" "}
-              uses{" "}
-              <span className="bg-yellow-200 text-yellow-700 px-1 rounded border border-yellow-400">
-                async
-              </span>{" "}
-              functions to fetch data from the{" "}
-              <span className="bg-yellow-200 text-yellow-700 px-1 rounded border border-yellow-400">
-                api
-              </span>{" "}
-              endpoint.
-            </p>
-            <p className="text-center text-sm text-muted-foreground mt-2">
-              Type the highlighted developer terms as they appear!
-            </p>
-          </CardContent>
-        </Card>
 
         {/* Interactive HomePage Component */}
         <HomePage />

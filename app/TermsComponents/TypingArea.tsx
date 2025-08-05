@@ -2,17 +2,16 @@ import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { RotateCcw, Volume2, VolumeX, BookOpen } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import type { WordItem, Term } from "../lib/types";
 import {
   SkipNextSolid,
   PlaySolid,
   PauseSolid,
-  SoundHighSolid,
-  SoundOffSolid,
   Book,
   SoundHigh,
   SoundOff,
+  Timer,
 } from "iconoir-react";
 import { SpeechService } from "../lib/speechUtils";
 
@@ -58,6 +57,22 @@ const TypingArea: React.FC<TypingAreaProps> = ({
 
   const currentWord = words[currentWordIndex];
   const isTimerExpired = timeRemaining <= 0;
+
+  useEffect(() => {
+    // Auto-focus and start session on any key press
+    const handleGlobalKeyPress = (e: KeyboardEvent) => {
+      if (!sessionStarted && !isTimerExpired && currentWord) {
+        // Don't trigger on special keys
+        if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
+          onStartSession();
+          inputRef.current?.focus();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleGlobalKeyPress);
+    return () => document.removeEventListener("keydown", handleGlobalKeyPress);
+  }, [sessionStarted, isTimerExpired, currentWord, onStartSession]);
 
   useEffect(() => {
     if (!isTimerExpired && isSessionActive) {
@@ -128,10 +143,12 @@ const TypingArea: React.FC<TypingAreaProps> = ({
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (isTimerExpired) return;
 
-    if (e.key === " " || e.key === "Enter") {
+    // Only Enter key can skip - no space skipping at all
+    if (e.key === "Enter") {
       e.preventDefault();
       handleSkip();
     }
+    // Space is treated as normal character input - no special handling
   };
 
   const handleSpeech = async () => {
@@ -162,7 +179,7 @@ const TypingArea: React.FC<TypingAreaProps> = ({
       const term: Term = {
         term: word.word,
         definition: word.definition || "",
-        category: "General", // You might want to pass this from props
+        category: "General",
         resources: word.resources,
       };
       setSelectedTermResources(term);
@@ -173,17 +190,19 @@ const TypingArea: React.FC<TypingAreaProps> = ({
     if (word.isCompleted) {
       if (word.isDevTerm) {
         return word.isCorrect
-          ? "bg-green-100 text-green-800 px-2 py-1 rounded cursor-pointer hover:bg-green-200 border border-green-300"
-          : "bg-red-100 text-red-800 px-2 py-1 rounded cursor-pointer hover:bg-red-200 line-through border border-red-300";
+          ? "bg-green-100 text-green-800 px-2 py-1 mx-1 rounded cursor-pointer hover:bg-green-200 border border-green-300 inline-block"
+          : "bg-red-100 text-red-800 px-2 py-1 mx-1 rounded cursor-pointer hover:bg-red-200 line-through border border-red-300 inline-block";
       }
-      return word.isCorrect ? "text-green-600" : "text-red-600 line-through";
+      return word.isCorrect
+        ? "text-green-600 mx-1 inline-block"
+        : "text-red-600 line-through mx-1 inline-block";
     }
 
     if (word.isDevTerm && index !== currentWordIndex) {
-      return "bg-yellow-200 text-yellow-700 border-yellow-400 px-2 py-1 rounded font-medium border";
+      return "bg-yellow-200 text-yellow-700 border-yellow-400 px-2 py-1 mx-1 rounded font-medium border inline-block";
     }
 
-    return "text-foreground";
+    return "text-foreground mx-1 inline-block";
   };
 
   const renderCurrentWord = (word: WordItem) => {
@@ -192,8 +211,8 @@ const TypingArea: React.FC<TypingAreaProps> = ({
         <span
           className={
             word.isDevTerm
-              ? "bg-yellow-200 text-yellow-700 border-yellow-400 px-2 py-1 rounded font-semibold border-2"
-              : "bg-secondary text-secondary-foreground px-2 py-1 rounded border-2 border-border"
+              ? "bg-yellow-200 text-yellow-700 border-yellow-400 px-2 py-1 mx-1 rounded font-semibold border-2 inline-block"
+              : "bg-secondary text-secondary-foreground px-2 py-1 mx-1 rounded border-2 border-border inline-block"
           }
         >
           {word.word}
@@ -208,8 +227,8 @@ const TypingArea: React.FC<TypingAreaProps> = ({
       <span
         className={
           word.isDevTerm
-            ? "px-2 py-1 rounded font-semibold border-2 border-black/20"
-            : "px-2 py-1 rounded border-2 border-border"
+            ? "px-2 py-1 mx-1 rounded font-semibold border-2 border-black/20 inline-block"
+            : "px-2 py-1 mx-1 rounded border-2 border-border inline-block"
         }
       >
         {chars.map((char, charIndex) => {
@@ -280,51 +299,55 @@ const TypingArea: React.FC<TypingAreaProps> = ({
   };
 
   return (
-    <>
-      <div className="space-y-6">
-        {/* Timer and Controls */}
-        <div className="flex items-center justify-between">
-          <Badge variant="outline" className="text-lg">
-            Time: {formatTime(timeRemaining)}
-          </Badge>
-          <div className="flex items-center gap-2">
-            {!sessionStarted ? (
-              <Button
-                size="sm"
-                onClick={onStartSession}
-                className="flex items-center gap-2"
-              >
-                <PlaySolid className="size-5 mr-2" />
-                Start Session
-              </Button>
-            ) : (
-              <>
-                {isSessionActive ? (
-                  <Button variant="outline" size="sm" onClick={() => {}}>
-                    <PauseSolid className="size-5 mr-2" />
-                    Pause
-                  </Button>
-                ) : timeRemaining > 0 ? (
-                  <Button size="sm" onClick={onStartSession}>
-                    <PlaySolid className="size-5 mr-2" />
-                    Resume
-                  </Button>
-                ) : null}
-              </>
-            )}
-            <Button variant="outline" size="sm" onClick={onReset}>
-              <RotateCcw className="h-4 w-4 mr-2" />
-              Reset
-            </Button>
-          </div>
+    <div className="space-y-4 pb-8">
+      {/* Timer and Controls - Compact on mobile */}
+      <div className="flex  items-center justify-between gap-3">
+        <div className="flex items-center text-base  sm:text-lg h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 border-2 border-black/10 ">
+          <Timer className="size-4" /> {formatTime(timeRemaining)}
         </div>
+        <div className="flex items-center gap-2 flex-wrap">
+          {!sessionStarted ? (
+            <Button
+              size="sm"
+              onClick={onStartSession}
+              className="flex items-center gap-2"
+            >
+              <PlaySolid className="size-4" />
+              Start
+            </Button>
+          ) : (
+            <>
+              {isSessionActive ? (
+                <Button variant="outline" size="sm" onClick={() => {}}>
+                  <PauseSolid className="size-4" />
+                  Pause
+                </Button>
+              ) : timeRemaining > 0 ? (
+                <Button size="sm" onClick={onStartSession}>
+                  <PlaySolid className="size-4" />
+                  Resume
+                </Button>
+              ) : null}
+            </>
+          )}
+          <Button variant="outline" size="sm" onClick={onReset}>
+            <RotateCcw className="h-4 w-4" />
+            Reset
+          </Button>
+        </div>
+      </div>
 
-        {/* Sentence Display */}
-        <Card className="border-border">
-          <CardContent className="pt-6">
-            <div className="text-lg leading-relaxed space-x-1 mb-6 min-h-[120px]">
+      {/* Sentence Display - Better mobile layout */}
+      <Card className="border-border">
+        <CardContent className="p-4 sm:p-6">
+          {/* Words with proper wrapping and spacing */}
+          <div className="text-base sm:text-lg leading-relaxed mb-6 min-h-[100px] sm:min-h-[120px]">
+            <div className="flex flex-wrap items-center gap-1">
               {words.map((word, index) => (
-                <span key={`${word.word}-${index}`} className="relative">
+                <div
+                  key={`${word.word}-${index}`}
+                  className="relative inline-block"
+                >
                   {index === currentWordIndex ? (
                     renderCurrentWord(word)
                   ) : (
@@ -344,144 +367,103 @@ const TypingArea: React.FC<TypingAreaProps> = ({
                       <div>{word.definition}</div>
                     </div>
                   )}
-                  {index < words.length - 1 && " "}
-                </span>
+                </div>
               ))}
             </div>
+          </div>
 
-            {/* Current Word Info */}
-            {currentWord && (
-              <div className="mb-4 p-3 bg-muted rounded-lg border border-border">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-muted-foreground">
-                    Type:{" "}
-                    <span className="font-mono font-semibold text-foreground">
-                      {currentWord.word}
-                    </span>
+          {/* Current Word Info - Mobile optimized */}
+          {currentWord && (
+            <div className="mb-4 p-3 bg-muted rounded-lg border border-border">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-2">
+                <div className="text-sm text-muted-foreground">
+                  <span className="block sm:inline">Type: </span>
+                  <span className="font-mono font-semibold text-foreground text-base">
+                    {currentWord.word}
                   </span>
-                  <div className="flex items-center gap-2">
-                    {currentWord.isDevTerm && (
-                      <Badge variant="secondary">Dev Term</Badge>
-                    )}
-                    {speechService.isSupported() && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={handleSpeech}
-                        disabled={!currentWord.definition && !currentWord.word}
-                      >
-                        {isSpeaking ? (
-                          <SoundHigh className="h-4 w-4" />
-                        ) : (
-                          <SoundOff className="h-4 w-4" />
-                        )}
-                      </Button>
-                    )}
-                    {currentWord.isDevTerm &&
-                      currentWord.resources &&
-                      currentWord.resources.length > 0 && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleShowResources(currentWord)}
-                        >
-                          <Book className="h-4 w-4" />
-                        </Button>
-                      )}
-                  </div>
                 </div>
-                {currentWord.isDevTerm && currentWord.definition && (
-                  <div className="text-xs text-muted-foreground">
-                    💡 {currentWord.definition}
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Custom Typing Display */}
-            <div className="flex gap-3">
-              <div
-                className="flex-1 text-xl px-2 py-2 rounded-md border-2 min-h-[30px] cursor-text focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                onClick={() => inputRef.current?.focus()}
-              >
-                <div className="flex flex-wrap gap-1 items-center">
-                  {currentWord && currentInput ? (
-                    <div className="font-mono">{renderTypedCharacters()}</div>
-                  ) : (
-                    <span className="text-muted-foreground">
-                      {isTimerExpired
-                        ? "Time's up! Session completed."
-                        : !sessionStarted
-                        ? "Start typing to begin session..."
-                        : currentWord
-                        ? "Start typing..."
-                        : "Loading..."}
-                    </span>
+                <div className="flex items-center gap-1 flex-wrap">
+                  {currentWord.isDevTerm && (
+                    <Badge
+                      variant="outline"
+                      className="text-xs h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5"
+                    >
+                      Dev Term
+                    </Badge>
+                  )}
+                  {speechService.isSupported() && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleSpeech}
+                      disabled={!currentWord.definition && !currentWord.word}
+                      className="h-8 w-8 p-0"
+                    >
+                      {isSpeaking ? (
+                        <SoundHigh className="h-3 w-3" />
+                      ) : (
+                        <SoundOff className="h-3 w-3" />
+                      )}
+                    </Button>
                   )}
                 </div>
-
-                {/* Hidden input for keyboard handling */}
-                <input
-                  ref={inputRef}
-                  value={currentInput}
-                  onChange={(e) => handleInputChange(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  className="opacity-0 absolute -left-9999px "
-                  disabled={!currentWord || isTimerExpired}
-                  autoComplete="off"
-                />
               </div>
-
-              <Button
-                onClick={handleSkip}
-                variant="outline"
-                size={"lg"}
-                className="p-6"
-                disabled={!currentWord || isTimerExpired}
-              >
-                <SkipNextSolid className="size-5" />
-                Skip (Space)
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Instructions */}
-        <div className="text-center text-sm text-muted-foreground">
-          {isTimerExpired ? (
-            <div className="text-center">
-              <p className="text-lg font-semibold text-red-600 mb-2">
-                ⏰ Time's Up!
-              </p>
-              <p>Your typing session has ended. Check your stats below!</p>
-            </div>
-          ) : !sessionStarted ? (
-            <p>Start typing to begin your typing session</p>
-          ) : (
-            <>
-              <p>
-                Type the current word exactly as shown, then press SPACE or
-                click Skip to continue
-              </p>
-              <p>
-                Click on completed dev terms (colored words) to see their
-                definitions
-              </p>
-              <div className="flex items-center justify-center gap-4 mt-2 text-xs">
-                <div className="flex items-center gap-1">
-                  <div className="w-3 h-3 bg-green-100 border border-green-300 rounded"></div>
-                  <span>Correct</span>
+              {currentWord.isDevTerm && currentWord.definition && (
+                <div className="text-xs text-muted-foreground">
+                  💡 {currentWord.definition}
                 </div>
-                <div className="flex items-center gap-1">
-                  <div className="w-3 h-3 bg-red-100 border border-red-300 rounded"></div>
-                  <span>Wrong</span>
-                </div>
-              </div>
-            </>
+              )}
+            </div>
           )}
-        </div>
-      </div>
-    </>
+
+          {/* Custom Typing Display */}
+          <div className="flex gap-3">
+            <div
+              className="flex-1 text-base sm:text-lg md:text-xl px-2 py-2 rounded-md border-2 min-h-[30px] cursor-text bg-background"
+              onClick={() => inputRef.current?.focus()}
+            >
+              <div className="flex flex-wrap gap-1 items-center">
+                {currentWord && currentInput ? (
+                  <div className="font-mono">{renderTypedCharacters()}</div>
+                ) : (
+                  <span className="text-muted-foreground">
+                    {isTimerExpired
+                      ? "Time's up! Session completed."
+                      : !sessionStarted
+                      ? "Start typing to begin session..."
+                      : currentWord
+                      ? "Start typing..."
+                      : "Loading..."}
+                  </span>
+                )}
+              </div>
+
+              {/* Hidden input for keyboard handling */}
+              <input
+                ref={inputRef}
+                value={currentInput}
+                onChange={(e) => handleInputChange(e.target.value)}
+                onKeyDown={handleKeyDown}
+                className="opacity-0 absolute -left-9999px"
+                disabled={!currentWord || isTimerExpired}
+                autoComplete="off"
+              />
+            </div>
+
+            <Button
+              onClick={handleSkip}
+              variant="outline"
+              size="lg"
+              className="p-6 hidden sm:flex items-center gap-2 select-none"
+              disabled={!currentWord || isTimerExpired}
+            >
+              <SkipNextSolid className="w-5 h-5" />
+              <span>Skip (Enter)</span>
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 

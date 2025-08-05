@@ -15,14 +15,14 @@ export default function Footer() {
         <Link href="/terms" className="hover:underline">
           Terms
         </Link>
-        <a
-          href="https://github.com/your-repo" // ← Replace with your actual GitHub or project link
+        {/* <a
+          href="https://github.com/your-repo"
           target="_blank"
           rel="noopener noreferrer"
           className="hover:underline"
         >
           GitHub
-        </a>
+        </a> */}
       </div>
     </footer>
   );

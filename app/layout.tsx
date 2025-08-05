@@ -4,6 +4,9 @@ import "./globals.css";
 
 import { GeistMono } from "geist/font/mono";
 import Footer from "./components/Footer";
+import { PostHogProvider } from "./components/providers";
+import PostHogPageView from "./components/posthog-pageview";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,7 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${GeistMono.className} antialiased min-h-screen`}>
-        {children} <Footer />
+        {" "}
+        <PostHogProvider>
+          <Suspense fallback={null}>
+            <PostHogPageView />
+          </Suspense>
+          {children} <Footer />
+        </PostHogProvider>
       </body>
     </html>
   );

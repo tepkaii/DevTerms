@@ -128,7 +128,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--background);  /* color of the track */
+  background: hsl(var(--secondary));  /* color of the track */
 }
 
 ::-webkit-scrollbar-thumb {
@@ -167,5 +167,8 @@
   animation: progress 1.5s ease-in-out;
 }
 
-
+::selection {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
 
