@@ -4,10 +4,10 @@ import type { SessionDuration, Term } from "../lib/types";
 import type { Metadata } from "next";
 
 interface PracticePageProps {
-  searchParams: {
+  searchParams: Promise<{
     category?: string;
     duration?: string;
-  };
+  }>;
 }
 
 export const metadata: Metadata = {
@@ -26,12 +26,14 @@ export const metadata: Metadata = {
     description:
       "Active typing practice session for developer terms. Improve your coding vocabulary and typing speed.",
   },
-  viewport: "width=device-width, initial-scale=1.0",
 };
 
-export default function PracticePage({ searchParams }: PracticePageProps) {
-  const category = searchParams.category || "All";
-  const duration = parseInt(searchParams.duration || "60") as SessionDuration;
+export default async function PracticePage({
+  searchParams,
+}: PracticePageProps) {
+  const params = await searchParams;
+  const category = params.category || "All";
+  const duration = parseInt(params.duration || "60") as SessionDuration;
 
   const getFilteredTerms = (): Term[] => {
     if (category === "All") {
