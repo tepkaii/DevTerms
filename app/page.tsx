@@ -1,103 +1,120 @@
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+import { ArrowArchery, LightBulbOn } from "iconoir-react";
+import HomePage from "./TermsComponents/HomePage";
+import type { Metadata } from "next";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: "DevTerms - Practice Developer Terms Typing",
+  description:
+    "Practice typing developer terms with timed sessions to improve coding vocabulary and typing speed.",
+  openGraph: {
+    type: "website",
+    title: "DevTerms - Practice Developer Terms Typing",
+    description:
+      "Practice typing developer terms with timed sessions to improve coding vocabulary and typing speed.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DevTerms - Practice Developer Terms Typing",
+    description:
+      "Practice typing developer terms with timed sessions to improve coding vocabulary and typing speed.",
+  },
+  viewport: "width=device-width, initial-scale=1.0",
+};
+
+// Server-side rendered main page
+export default function MainPage() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="min-h-screen bg-background p-6 select-none max-w-6xl mx-auto">
+      {/* Header */}
+      <header className="flex items-center justify-between gap-3 mb-16">
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/dt-logo.png"
+            alt="DevTerms Logo"
+            width={32}
+            height={32}
+            className="h-8 w-8"
+            priority
+          />{" "}
+          <h1 className="text-xl font-bold text-foreground">DevTerms</h1>{" "}
+        </Link>
+        <Button variant={"secondary"}>Support</Button>
+      </header>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      <div>
+        <div className="text-center mb-12">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Type developer terms in random sentences. Practice coding vocabulary
+            while improving your typing speed!
+          </p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {/* Preview Example */}
+        <Card className="mb-8 border-border">
+          <CardContent className="pt-6">
+            <p className="text-center font-mono text-lg text-foreground">
+              The{" "}
+              <span className="bg-yellow-200 text-yellow-700 border-yellow-400 px-1 rounded border">
+                component
+              </span>{" "}
+              uses{" "}
+              <span className="bg-yellow-200 text-yellow-700 px-1 rounded border border-yellow-400">
+                async
+              </span>{" "}
+              functions to fetch data from the{" "}
+              <span className="bg-yellow-200 text-yellow-700 px-1 rounded border border-yellow-400">
+                api
+              </span>{" "}
+              endpoint.
+            </p>
+            <p className="text-center text-sm text-muted-foreground mt-2">
+              Type the highlighted developer terms as they appear!
+            </p>
+          </CardContent>
+        </Card>
+
+        {/* Interactive HomePage Component */}
+        <HomePage />
+
+        {/* Instructions */}
+        <Card className="mt-8 border-border">
+          <CardHeader>
+            <CardTitle className="text-foreground">How to Play</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid md:grid-cols-2 gap-6 text-sm">
+              <div>
+                <h4 className="font-semibold mb-2 flex items-center text-foreground">
+                  <ArrowArchery className="size-5 mr-2" /> Typing Rules
+                </h4>
+                <ul className="space-y-1 text-muted-foreground">
+                  <li>• Type the highlighted developer terms</li>
+                  <li>• Press SPACE or Skip to move to next word</li>
+                  <li>• Focus on accuracy over speed</li>
+                  <li>• New sentences generate automatically</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2 flex items-center text-foreground">
+                  <LightBulbOn className="size-5 mr-2" /> Features
+                </h4>
+                <ul className="space-y-1 text-muted-foreground">
+                  <li>• Hover over completed words for definitions</li>
+                  <li>• Real-time WPM and accuracy tracking</li>
+                  <li>• Timer-based sessions</li>
+                  <li>• Category-specific practice</li>
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

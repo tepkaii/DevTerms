@@ -1,26 +1,171 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+
+
+
+[data-dragging="true"] {
+  opacity: 0.4 !important;
+  position: relative !important; 
+  z-index: 1 !important;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dnd-sortable-placeholder {
+  opacity: 0.2;
+  background-color: #d4d4d4;
+  border-radius: 4px;
 }
+@keyframes fade458 {
+  from {
+    opacity: 1;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  to {
+    opacity: 0.25;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
 }
+
+@layer base {
+  :root {
+    
+    --background: 0 0% 100%;
+    --foreground: 0 0% 10%;
+
+    --card: 0 0% 98%;
+    --card-foreground: 0 0% 10%;
+
+    --popover: 0 0% 97%;
+    --popover-foreground: 0 0% 10%;
+
+    --primary: 30 90% 57%;               
+    --primary-foreground: 0 0% 10%;   
+
+    --secondary: 0 0% 84%;
+    --secondary-foreground: 0 0% 20%;
+
+    --muted: 0 0% 92%;
+    --muted-foreground: 0 0% 50%;
+
+ --accent: 30 90% 57%;
+  --accent-foreground: 0 0% 10%;
+
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 88%;
+    --input: 0 0% 94%;
+    --ring: 0 0% 0%;                  
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    
+    --background: 222 11% 10%;
+    --foreground: 0 0% 100%;
+
+    --card: 222 11% 12%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 222 11% 14%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 30 90% 57%;               
+    
+    --primary-foreground: 0 0% 100%
+
+    --secondary: 0 0% 25%;
+    --secondary-foreground: 0 0% 90%;
+
+    --muted: 222 11% 18%;
+    --muted-foreground: 0 0% 60%;
+
+ --accent: 30 90% 57%;
+  --accent-foreground: 0 0% 10%;
+
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 25%;
+    --input: 222 11% 18%;
+    --ring: 0 0% 100%;               
+  }
+}
+
+
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+      display: none;
+  }
+ /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+}
+}
+
+/* For Webkit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 7px;  /* width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);  /* color of the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #E87B2E;  /* color of the scroll thumb */
+  border-radius: 3px;  /* rounded corners */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #f78d41;  /* color when hovering */
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: 5px;  /* "auto" or "thin" */
+  scrollbar-color: var(--secondary) #636363;;  /* thumb and track color */
+}
+
+
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@keyframes progress {
+  0% { width: 0; }
+  100% { width: 100%; }
+}
+
+.animate-progress {
+  animation: progress 1.5s ease-in-out;
+}
+
+
+
