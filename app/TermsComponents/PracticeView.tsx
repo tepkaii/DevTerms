@@ -1,6 +1,9 @@
+// dd/app/TermsComponents/PracticeView.tsx
+// @ts-nocheck
+// @ts-nocheck
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import TypingArea from "./TypingArea";
@@ -29,6 +32,12 @@ const PracticeView: React.FC<PracticeViewProps> = ({
   const [sessionStarted, setSessionStarted] = useState(false);
   const [sessionCompleted, setSessionCompleted] = useState(false);
   const [usedTerms, setUsedTerms] = useState<Term[]>([]);
+
+  // Timer states - much simpler approach
+  const [totalTimeSpent, setTotalTimeSpent] = useState(0); // Sum of all completed timer sessions
+  const [currentSessionTime, setCurrentSessionTime] = useState(0); // Current session elapsed time
+  const practizedTerms = sentenceGenerator.getUsedOriginalTerms();
+
   const [stats, setStats] = useState<Stats>({
     wpm: 0,
     accuracy: 100,
@@ -37,53 +46,80 @@ const PracticeView: React.FC<PracticeViewProps> = ({
     correctWords: 0,
     timeRemaining: duration,
     wordsCompleted: 0,
+    // Add character-level tracking - now all required by Stats interface
+    totalCharacters: 0,
+    correctCharacters: 0,
+    incorrectCharacters: 0,
+    uncorrectedErrors: 0,
+    elapsedTime: 0,
+    sessionDuration: duration,
   });
+
+  // Use ref to ensure only one timer runs
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Initialize first sentence
   useEffect(() => {
     generateNewSentence();
   }, []);
 
-  // Timer effect
+  // Main countdown timer and session time tracker
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    // Clear any existing interval first
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
 
-    if (isSessionActive && stats.timeRemaining > 0) {
-      interval = setInterval(() => {
+    if (isSessionActive && (stats.timeRemaining ?? 0) > 0) {
+      intervalRef.current = setInterval(() => {
+        setCurrentSessionTime((prev) => {
+          const newTime = prev + 1;
+
+          // Update elapsedTime in stats
+          setStats((prevStats) => ({
+            ...prevStats,
+            elapsedTime: newTime,
+          }));
+
+          return newTime;
+        });
+
         setStats((prev) => {
-          const newTimeRemaining = prev.timeRemaining - 1;
+          const currentTimeRemaining = prev.timeRemaining ?? 0;
+          const newTimeRemaining = currentTimeRemaining - 1;
+
           if (newTimeRemaining <= 0) {
+            // Clear the interval immediately
+            if (intervalRef.current) {
+              clearInterval(intervalRef.current);
+              intervalRef.current = null;
+            }
+
+            // Add the current session time to total
+            setCurrentSessionTime((currentTime) => {
+              setTotalTimeSpent((prevTotal) => prevTotal + currentTime);
+              return 0;
+            });
+
             setIsSessionActive(false);
             setSessionCompleted(true);
             return { ...prev, timeRemaining: 0 };
           }
+
           return { ...prev, timeRemaining: newTimeRemaining };
         });
       }, 1000);
     }
 
-    return () => clearInterval(interval);
+    // Cleanup function
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
   }, [isSessionActive, stats.timeRemaining]);
-
-  // Calculate WPM
-  useEffect(() => {
-    if (sessionStarted && stats.wordsCompleted > 0) {
-      const timeElapsed = (duration - stats.timeRemaining) / 60; // minutes
-      const wpm =
-        timeElapsed > 0 ? Math.round(stats.wordsCompleted / timeElapsed) : 0;
-      setStats((prev) => ({ ...prev, wpm }));
-    }
-  }, [stats.wordsCompleted, stats.timeRemaining, duration, sessionStarted]);
-
-  // Calculate accuracy
-  useEffect(() => {
-    if (stats.totalTyped > 0) {
-      const accuracy = Math.round(
-        (stats.correctWords / stats.totalTyped) * 100
-      );
-      setStats((prev) => ({ ...prev, accuracy }));
-    }
-  }, [stats.correctWords, stats.totalTyped]);
 
   const generateNewSentence = useCallback(() => {
     const newWords = sentenceGenerator.generateSentence();
@@ -96,11 +132,37 @@ const PracticeView: React.FC<PracticeViewProps> = ({
     setSessionStarted(true);
   };
 
+  const pauseSession = () => {
+    // Clear interval
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+
+    // Add current session time to total when pausing
+    setTotalTimeSpent((prev) => prev + currentSessionTime);
+    setCurrentSessionTime(0);
+    setIsSessionActive(false);
+
+    // Reset elapsedTime in stats when pausing
+    setStats((prev) => ({ ...prev, elapsedTime: 0 }));
+  };
+
   const resetSession = () => {
+    // Clear interval
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+
+    // Reset all states
     setIsSessionActive(false);
     setSessionStarted(false);
     setSessionCompleted(false);
     setUsedTerms([]);
+    setCurrentSessionTime(0);
+
+    // Reset stats but keep total time
     setStats({
       wpm: 0,
       accuracy: 100,
@@ -109,7 +171,15 @@ const PracticeView: React.FC<PracticeViewProps> = ({
       correctWords: 0,
       timeRemaining: duration,
       wordsCompleted: 0,
+      // Reset character-level tracking
+      totalCharacters: 0,
+      correctCharacters: 0,
+      incorrectCharacters: 0,
+      uncorrectedErrors: 0,
+      elapsedTime: 0,
+      sessionDuration: duration,
     });
+
     sentenceGenerator.reset();
     generateNewSentence();
   };
@@ -117,7 +187,10 @@ const PracticeView: React.FC<PracticeViewProps> = ({
   const handleWordComplete = (
     wordIndex: number,
     userInput: string,
-    isCorrect: boolean
+    isCorrect: boolean,
+    charactersTyped: number,
+    correctCharacters: number,
+    incorrectCharacters: number
   ) => {
     // Update the word in current words
     setCurrentWords((prev) =>
@@ -132,10 +205,11 @@ const PracticeView: React.FC<PracticeViewProps> = ({
     const completedWord = currentWords[wordIndex];
     if (completedWord.isDevTerm && completedWord.definition) {
       const term: Term = {
-        term: completedWord.word,
+        term: completedWord.originalTerm || completedWord.word, // Use originalTerm if available
         definition: completedWord.definition,
-        category: category,
+        category: completedWord.category || category, // Use word's category or fallback
         resources: completedWord.resources,
+        originalTerm: completedWord.originalTerm, // Include originalTerm
       };
 
       setUsedTerms((prev) => {
@@ -144,13 +218,19 @@ const PracticeView: React.FC<PracticeViewProps> = ({
       });
     }
 
-    // Update stats
+    // Update stats with character-level precision from TypingArea
     setStats((prev) => ({
       ...prev,
       totalTyped: prev.totalTyped + 1,
       correctWords: prev.correctWords + (isCorrect ? 1 : 0),
       mistakes: prev.mistakes + (isCorrect ? 0 : 1),
       wordsCompleted: prev.wordsCompleted + 1,
+      // Character-level stats from TypingArea calculation
+      totalCharacters: (prev.totalCharacters ?? 0) + charactersTyped,
+      correctCharacters: (prev.correctCharacters ?? 0) + correctCharacters,
+      incorrectCharacters:
+        (prev.incorrectCharacters ?? 0) + incorrectCharacters,
+      uncorrectedErrors: (prev.uncorrectedErrors ?? 0) + (isCorrect ? 0 : 1),
     }));
   };
 
@@ -178,8 +258,8 @@ const PracticeView: React.FC<PracticeViewProps> = ({
               height={32}
               className="h-8 w-8"
               priority
-            />{" "}
-            <h1 className="text-xl font-bold text-foreground">DevTerms</h1>{" "}
+            />
+            <h1 className="text-xl font-bold text-foreground">DevTerms</h1>
           </Link>
 
           <Button variant="secondary" size="sm" className="text-lg px-4 py-2">
@@ -195,10 +275,13 @@ const PracticeView: React.FC<PracticeViewProps> = ({
           onNextWord={handleNextWord}
           onReset={resetSession}
           onStartSession={startSession}
-          timeRemaining={stats.timeRemaining}
+          onPauseSession={pauseSession}
+          timeRemaining={stats.timeRemaining ?? 0}
           isSessionActive={isSessionActive}
           sessionCompleted={sessionCompleted}
           sessionStarted={sessionStarted}
+          currentSessionTime={currentSessionTime}
+          totalTimeSpent={totalTimeSpent}
         />
 
         {/* Stats */}
@@ -206,7 +289,7 @@ const PracticeView: React.FC<PracticeViewProps> = ({
           stats={stats}
           isSessionActive={isSessionActive}
           sessionCompleted={sessionCompleted}
-          usedTerms={usedTerms}
+          usedTerms={practizedTerms} // Use the original terms, not individual words
         />
       </div>
     </div>

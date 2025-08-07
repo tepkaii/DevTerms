@@ -1,3 +1,5 @@
+// dd/app/TermsComponents/HomePage.tsx
+
 "use client";
 
 import React, { useState } from "react";

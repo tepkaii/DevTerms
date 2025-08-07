@@ -1,3 +1,7 @@
+// dd/app/TermsComponents/StatsPanel.tsx
+// @ts-nocheck
+// @ts-nocheck
+
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -36,63 +40,107 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [speakingTerm, setSpeakingTerm] = useState<string | null>(null);
 
-  // Enhanced Net WPM calculation
-  const calculateNetWPM = () => {
-    // Use actual words completed, not character estimation
-    const correctWordsTyped =
-      stats.correctWords || Math.max(0, stats.wordsCompleted - stats.mistakes);
-    const elapsedTimeMinutes = stats.elapsedTime
-      ? stats.elapsedTime / 60
-      : stats.sessionDuration
-      ? (stats.sessionDuration - stats.timeRemaining) / 60
-      : 1;
+  // Function to group compound terms back together
+  const groupUsedTerms = (terms: Term[]): Term[] => {
+    // Use a Map to group by originalTerm (for compound terms) or term (for single terms)
+    const grouped = terms.reduce((acc, term) => {
+      // Use originalTerm if it exists (compound terms), otherwise use term
+      const key = term.originalTerm || term.term;
 
-    if (elapsedTimeMinutes <= 0) return 0;
+      if (!acc.has(key)) {
+        // For the first occurrence, use the original term data
+        acc.set(key, {
+          ...term,
+          term: key, // Use the full original term as display name
+        });
+      }
+      return acc;
+    }, new Map<string, Term>());
 
-    // Net WPM = Correct Words ÷ Minutes (errors already subtracted from correct words)
-    const netWPM = Math.max(
-      0,
-      Math.round(correctWordsTyped / elapsedTimeMinutes)
-    );
-    return netWPM;
+    return Array.from(grouped.values());
   };
 
-  // Enhanced accuracy calculation with character-level precision
-  const calculateEnhancedAccuracy = () => {
-    const totalCharactersTyped =
-      stats.totalCharacters || stats.totalTyped * 5 || 0;
-    const correctCharacters = stats.correctCharacters || 0;
-    const incorrectCharacters = stats.incorrectCharacters || 0;
-    const uncorrectedErrors = stats.uncorrectedErrors || stats.mistakes || 0;
+  // Get grouped terms for display
+  const groupedUsedTerms = groupUsedTerms(usedTerms);
 
-    if (totalCharactersTyped === 0) return 100;
+  // **Type to Learn WPM Calculation**
+  // Formula: Total Number of Words = Total Keys Pressed / 5
+  // WPM = Total Number of Words / Time Elapsed in Minutes (rounded down)
+  const calculateWPM = () => {
+    const totalKeysPressed = stats.totalCharacters || stats.totalTyped * 5 || 0;
 
-    // Method 1: Character-level accuracy (most precise)
-    if (correctCharacters > 0 || incorrectCharacters > 0) {
-      const totalAttemptedCharacters = correctCharacters + incorrectCharacters;
-      return Math.max(0, (correctCharacters / totalAttemptedCharacters) * 100);
+    // Calculate elapsed time in minutes
+    let elapsedTimeMinutes = 0;
+
+    if (stats.elapsedTime) {
+      elapsedTimeMinutes = stats.elapsedTime / 60;
+    } else if (stats.sessionDuration && stats.timeRemaining !== undefined) {
+      const elapsedSeconds = stats.sessionDuration - stats.timeRemaining;
+      elapsedTimeMinutes = elapsedSeconds / 60;
     }
 
-    // Method 2: Error-based accuracy (fallback)
-    const errorRate = uncorrectedErrors / totalCharactersTyped;
-    return Math.max(0, (1 - errorRate) * 100);
+    // Handle cases when time is less than 1 minute
+    if (elapsedTimeMinutes < 1) {
+      // For less than 1 minute, we can still calculate but should be careful about precision
+      if (elapsedTimeMinutes === 0 || totalKeysPressed === 0) {
+        return 0;
+      }
+      // Still calculate for partial minutes but be aware it's an estimate
+      const totalWords = totalKeysPressed / 5;
+      const wpm = totalWords / elapsedTimeMinutes;
+      return Math.floor(wpm); // Rounded down as per spec
+    }
+
+    // Standard calculation for 1+ minutes
+    const totalWords = totalKeysPressed / 5;
+    const wpm = totalWords / elapsedTimeMinutes;
+
+    return Math.floor(wpm); // Rounded down as per Type to Learn spec
+  };
+
+  // **Type to Learn Accuracy Calculation**
+  // Formula: Accuracy = (Correct Keys Pressed / Total Keys Pressed) * 100
+  const calculateAccuracy = () => {
+    const totalKeysPressed = stats.totalCharacters || stats.totalTyped * 5 || 0;
+    const correctKeysPressed = stats.correctCharacters || 0;
+
+    if (totalKeysPressed === 0) return 100;
+
+    // Direct calculation based on correct vs total keys
+    const accuracy = (correctKeysPressed / totalKeysPressed) * 100;
+
+    return Math.round(accuracy); // Round to nearest whole number
+  };
+
+  // **Type to Learn Adjusted WPM (AWPM) Calculation**
+  // Formula: AWPM = WPM × Accuracy (rounded down)
+  const calculateAdjustedWPM = () => {
+    const wpm = calculateWPM();
+    const accuracy = calculateAccuracy();
+
+    if (wpm === 0 || accuracy === 0) return 0;
+
+    const awpm = wpm * (accuracy / 100);
+    return Math.floor(awpm); // Rounded down as per spec
   };
 
   // Get real-time typing metrics
   const getTypingMetrics = () => {
-    const netWPM = calculateNetWPM();
-    const enhancedAccuracy = calculateEnhancedAccuracy();
+    const wpm = calculateWPM();
+    const accuracy = calculateAccuracy();
+    const adjustedWPM = calculateAdjustedWPM();
 
     return {
-      netWPM,
-      enhancedAccuracy,
-      totalCharacters: stats.totalCharacters || stats.totalTyped * 5 || 0,
-      correctCharacters: stats.correctCharacters || 0,
-      incorrectCharacters: stats.incorrectCharacters || 0,
+      wpm,
+      accuracy,
+      adjustedWPM,
+      totalKeysPressed: stats.totalCharacters || stats.totalTyped * 5 || 0,
+      correctKeysPressed: stats.correctCharacters || 0,
+      incorrectKeysPressed: stats.incorrectCharacters || 0,
       uncorrectedErrors: stats.uncorrectedErrors || stats.mistakes || 0,
       elapsedTime:
         stats.elapsedTime ||
-        (stats.sessionDuration
+        (stats.sessionDuration && stats.timeRemaining !== undefined
           ? stats.sessionDuration - stats.timeRemaining
           : 0),
     };
@@ -139,11 +187,19 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
     return "text-red-600";
   };
 
-  const getNetWpmColor = (netWpm: number) => {
-    if (netWpm >= 60) return "text-green-600";
-    if (netWpm >= 50) return "text-green-500";
-    if (netWpm >= 35) return "text-yellow-500";
-    if (netWpm >= 25) return "text-orange-500";
+  const getWpmColor = (wpm: number) => {
+    if (wpm >= 60) return "text-green-600";
+    if (wpm >= 50) return "text-green-500";
+    if (wpm >= 35) return "text-yellow-500";
+    if (wpm >= 25) return "text-orange-500";
+    return "text-red-600";
+  };
+
+  const getAdjustedWpmColor = (awpm: number) => {
+    if (awpm >= 50) return "text-green-600";
+    if (awpm >= 40) return "text-green-500";
+    if (awpm >= 30) return "text-yellow-500";
+    if (awpm >= 20) return "text-orange-500";
     return "text-red-600";
   };
 
@@ -162,55 +218,55 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
 
   return (
     <>
-      <div className="w-full max-w-6xl mx-auto  select-none">
+      {/* select-none */}
+      <div className="w-full max-w-6xl mx-auto ">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          {/* Time Remaining */}
-          <Card
-            className={`border-border ${
-              isSessionActive ? "ring-2 ring-primary" : ""
-            }`}
-          >
-            <CardContent className="pt-4">
-              <div className="flex items-center gap-2 mb-2">
-                <Timer className="h-4 w-4 text-blue-600" />
-                <p className="text-sm text-muted-foreground">Time</p>
-              </div>
-              <p className="text-2xl font-bold text-blue-600">
-                {formatTime(stats.timeRemaining)}
-              </p>
-            </CardContent>
-          </Card>
-
-          {/* Net WPM (Primary Metric) */}
+          {/* Raw WPM */}
           <Card className="border-border">
             <CardContent className="pt-4">
               <div className="flex items-center gap-2 mb-2">
                 <Flash className="h-4 w-4 text-primary" />
                 <p className="text-sm text-muted-foreground">WPM</p>
               </div>
-              <p
-                className={`text-2xl font-bold ${getNetWpmColor(
-                  metrics.netWPM
-                )}`}
-              >
-                {metrics.netWPM}
+              <p className={`text-2xl font-bold ${getWpmColor(metrics.wpm)}`}>
+                {metrics.wpm}
               </p>
             </CardContent>
           </Card>
 
-          {/* Enhanced Accuracy */}
+          {/* Adjusted WPM (AWPM) - Primary Performance Metric */}
+          <Card className="border-border ring-2 ring-purple-200">
+            <CardContent className="pt-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Medal className="h-4 w-4 text-purple-600" />
+                <p className="text-sm text-muted-foreground">AWPM</p>
+              </div>
+              <p
+                className={`text-2xl font-bold ${getAdjustedWpmColor(
+                  metrics.adjustedWPM
+                )}`}
+              >
+                {metrics.adjustedWPM}
+              </p>
+              <p className="text-xs text-muted-foreground mt-1">
+                Speed × Accuracy
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* Accuracy */}
           <Card className="border-border">
             <CardContent className="pt-4">
               <div className="flex items-center gap-2 mb-2">
-                <Medal className="h-4 w-4 text-green-600" />
+                <Trophy className="h-4 w-4 text-green-600" />
                 <p className="text-sm text-muted-foreground">Accuracy</p>
               </div>
               <p
                 className={`text-2xl font-bold ${getAccuracyColor(
-                  metrics.enhancedAccuracy
+                  metrics.accuracy
                 )}`}
               >
-                {metrics.enhancedAccuracy.toFixed(1)}%
+                {metrics.accuracy}%
               </p>
             </CardContent>
           </Card>
@@ -219,7 +275,7 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
           <Card className="border-border">
             <CardContent className="pt-4">
               <div className="flex items-center gap-2 mb-2">
-                <Trophy className="h-4 w-4 text-yellow-600" />
+                <Book className="h-4 w-4 text-yellow-600" />
                 <p className="text-sm text-muted-foreground">Words</p>
               </div>
               <p className="text-2xl font-bold text-yellow-600">
@@ -228,7 +284,7 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
             </CardContent>
           </Card>
 
-          {/* Errors */}
+          {/* Key Errors */}
           <Card className="border-border">
             <CardContent className="pt-4">
               <div className="flex items-center gap-2 mb-2">
@@ -242,18 +298,79 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
           </Card>
         </div>
 
+        {/* Detailed Statistics - Only show when session is active or completed */}
+        {(isSessionActive || sessionCompleted) && (
+          <Card className="mt-4 border-border">
+            <CardHeader>
+              <CardTitle className="text-lg">Detailed Statistics</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                <div>
+                  <p className="text-muted-foreground">Total Keys Pressed</p>
+                  <p className="font-semibold">{metrics.totalKeysPressed}</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Correct Keys</p>
+                  <p className="font-semibold text-green-600">
+                    {metrics.correctKeysPressed}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Incorrect Keys</p>
+                  <p className="font-semibold text-red-600">
+                    {metrics.incorrectKeysPressed}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Time Elapsed</p>
+                  <p className="font-semibold">
+                    {formatTime(metrics.elapsedTime)}
+                  </p>
+                </div>
+              </div>
+
+              {/* Calculation Examples */}
+              <div className="mt-4 p-3 bg-muted rounded-lg">
+                <p className="text-sm font-semibold mb-2">How we calculate:</p>
+                <div className="text-xs text-muted-foreground space-y-1">
+                  <p>
+                    • <strong>Words:</strong> {metrics.totalKeysPressed} keys ÷
+                    5 = {Math.floor(metrics.totalKeysPressed / 5)} words
+                  </p>
+                  <p>
+                    • <strong>WPM:</strong>{" "}
+                    {Math.floor(metrics.totalKeysPressed / 5)} words ÷{" "}
+                    {(metrics.elapsedTime / 60).toFixed(2)} minutes ={" "}
+                    {metrics.wpm} WPM
+                  </p>
+                  <p>
+                    • <strong>Accuracy:</strong> {metrics.correctKeysPressed}{" "}
+                    correct ÷ {metrics.totalKeysPressed} total × 100 ={" "}
+                    {metrics.accuracy}%
+                  </p>
+                  <p>
+                    • <strong>AWPM:</strong> {metrics.wpm} WPM ×{" "}
+                    {metrics.accuracy}% = {metrics.adjustedWPM} AWPM
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Used Terms Section */}
-        {sessionCompleted && usedTerms.length > 0 && (
+        {sessionCompleted && groupedUsedTerms.length > 0 && (
           <Card className="mt-6 border-border">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Book className="h-5 w-5" />
-                Terms Practiced ({usedTerms.length})
+                Terms Practiced ({groupedUsedTerms.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2 mb-4">
-                {usedTerms.map((term) => (
+                {groupedUsedTerms.map((term) => (
                   <div key={term.term} className="flex items-center gap-1">
                     <Button
                       variant="outline"

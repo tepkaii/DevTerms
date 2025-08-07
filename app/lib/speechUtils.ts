@@ -1,16 +1,26 @@
 export class SpeechService {
-  private synth: SpeechSynthesis;
+  private synth: SpeechSynthesis | null = null;
   private currentUtterance: SpeechSynthesisUtterance | null = null;
   private voices: SpeechSynthesisVoice[] = [];
+  private isClient: boolean = false;
 
   constructor() {
-    this.synth = window.speechSynthesis;
-    this.loadVoices();
+    // Check if we're in the browser
+    this.isClient = typeof window !== "undefined";
+
+    if (this.isClient && "speechSynthesis" in window) {
+      this.synth = window.speechSynthesis;
+      this.loadVoices();
+    }
   }
 
   private loadVoices(): void {
+    if (!this.synth) return;
+
     const load = () => {
-      this.voices = this.synth.getVoices();
+      if (this.synth) {
+        this.voices = this.synth.getVoices();
+      }
     };
 
     // On some browsers, voices are loaded async
@@ -49,6 +59,11 @@ export class SpeechService {
     } = {}
   ): Promise<void> {
     return new Promise((resolve, reject) => {
+      if (!this.isSupported()) {
+        reject(new Error("Speech synthesis not supported"));
+        return;
+      }
+
       this.stop();
 
       const utterance = new SpeechSynthesisUtterance(text);
@@ -76,7 +91,7 @@ export class SpeechService {
       };
 
       this.currentUtterance = utterance;
-      this.synth.speak(utterance);
+      this.synth!.speak(utterance);
     });
   }
 
@@ -86,6 +101,8 @@ export class SpeechService {
   }
 
   stop(): void {
+    if (!this.synth) return;
+
     if (this.synth.speaking || this.synth.pending) {
       this.synth.cancel();
     }
@@ -93,12 +110,16 @@ export class SpeechService {
   }
 
   pause(): void {
+    if (!this.synth) return;
+
     if (this.synth.speaking && !this.synth.paused) {
       this.synth.pause();
     }
   }
 
   resume(): void {
+    if (!this.synth) return;
+
     if (this.synth.paused) {
       this.synth.resume();
     }
@@ -109,14 +130,14 @@ export class SpeechService {
   }
 
   isSupported(): boolean {
-    return "speechSynthesis" in window;
+    return this.isClient && this.synth !== null && "speechSynthesis" in window;
   }
 
   isSpeaking(): boolean {
-    return this.synth.speaking;
+    return this.synth ? this.synth.speaking : false;
   }
 
   isPaused(): boolean {
-    return this.synth.paused;
+    return this.synth ? this.synth.paused : false;
   }
 }

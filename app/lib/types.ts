@@ -1,6 +1,6 @@
 // types.ts
 export interface LearningResource {
-  id: string; // Keep this for resources since they need unique identifiers within a term
+  id: string;
   title: string;
   url: string;
   type: "youtube" | "personal" | "article" | "documentation";
@@ -9,20 +9,26 @@ export interface LearningResource {
 }
 
 export interface Term {
-  term: string; // Removed id - using term as natural identifier
+  term: string; // Using term as natural identifier
   definition: string;
   category: string;
   resources?: LearningResource[];
 }
 
 export interface WordItem {
-  word: string; // Removed id - using word as natural identifier
+  word: string; // Using word as natural identifier
   isDevTerm: boolean;
   definition?: string;
   resources?: LearningResource[];
   isCompleted: boolean;
   isCorrect: boolean;
   userInput: string;
+
+  // Add missing properties for compound terms
+  originalTerm?: string;
+  isCompound?: boolean;
+  compoundIndex?: number;
+  compoundTotal?: number;
 }
 
 export interface Stats {
@@ -33,14 +39,14 @@ export interface Stats {
   correctWords: number;
   timeRemaining: number;
   wordsCompleted: number;
-  
+
   // Enhanced stats for Net WPM calculation
-  totalCharacters?: number; // Total characters typed
-  correctCharacters?: number; // Characters typed correctly
-  incorrectCharacters?: number; // Characters typed incorrectly
-  uncorrectedErrors?: number; // Errors not corrected (for Net WPM)
-  elapsedTime?: number; // Time elapsed in seconds
-  sessionDuration?: number; // Total session duration in seconds
+  totalCharacters: number; // Made required since it's used in calculations
+  correctCharacters: number; // Made required
+  incorrectCharacters: number; // Made required
+  uncorrectedErrors: number; // Made required
+  elapsedTime: number; // Made required
+  sessionDuration: number; // Made required
 }
 
 export type SessionDuration = 60 | 120 | 180; // seconds

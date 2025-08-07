@@ -2,6 +2,8 @@
 
 import type { Term } from "./types";
 
+
+
 // JavaScript Terms
 const javascriptTerms: Term[] = [
   {
@@ -57,7 +59,6 @@ const javascriptTerms: Term[] = [
         title: "Async/Await Explained - My Tutorial",
         url: "https://youtu.be/V_Kr9OSfDeU",
         type: "youtube",
-
         description: "Master asynchronous JavaScript programming",
       },
       {
@@ -84,7 +85,6 @@ const javascriptTerms: Term[] = [
         title: "TypeScript Crash Course - My Tutorial",
         url: "https://youtu.be/BwuLxPH8IDs",
         type: "youtube",
-
         description: "Learn TypeScript from beginner to advanced",
       },
     ],
@@ -126,6 +126,151 @@ const javascriptTerms: Term[] = [
   {
     term: "throttle",
     definition: "Limits how often a function can run over time",
+    category: "JavaScript",
+  },
+  // New JavaScript Terms
+  {
+    term: "arrow function",
+    definition:
+      "A shorter syntax for writing functions in JavaScript using => operator",
+    category: "JavaScript",
+  },
+  {
+    term: "destructuring",
+    definition:
+      "A JavaScript expression that unpacks values from arrays or properties from objects",
+    category: "JavaScript",
+  },
+  {
+    term: "spread operator",
+    definition:
+      "Allows an iterable to expand in places where 0+ arguments are expected using ... syntax",
+    category: "JavaScript",
+  },
+  {
+    term: "rest parameters",
+    definition:
+      "Allows representing an indefinite number of arguments as an array using ... syntax",
+    category: "JavaScript",
+  },
+  {
+    term: "template literals",
+    definition:
+      "String literals allowing embedded expressions using backtick syntax",
+    category: "JavaScript",
+  },
+  {
+    term: "prototype",
+    definition:
+      "JavaScript objects inherit features from one another through the prototype chain",
+    category: "JavaScript",
+  },
+  {
+    term: "this binding",
+    definition:
+      "How the 'this' keyword is bound to different contexts in JavaScript functions",
+    category: "JavaScript",
+  },
+  {
+    term: "module",
+    definition:
+      "A way to organize code into separate files using import/export statements",
+    category: "JavaScript",
+  },
+  {
+    term: "babel",
+    definition:
+      "A JavaScript compiler that transforms modern JS code into backward-compatible versions",
+    category: "JavaScript",
+  },
+  {
+    term: "webpack",
+    definition:
+      "A module bundler that bundles JavaScript files and other assets for deployment",
+    category: "JavaScript",
+  },
+  {
+    term: "callback",
+    definition:
+      "A function passed as an argument to another function to be executed later",
+    category: "JavaScript",
+  },
+  {
+    term: "higher order function",
+    definition:
+      "A function that takes other functions as arguments or returns a function",
+    category: "JavaScript",
+  },
+  {
+    term: "iife",
+    definition:
+      "Immediately Invoked Function Expression - a function that runs as soon as it's defined",
+    category: "JavaScript",
+  },
+  {
+    term: "map",
+    definition:
+      "Array method that creates a new array with results of calling a function on every element",
+    category: "JavaScript",
+  },
+  {
+    term: "filter",
+    definition:
+      "Array method that creates a new array with elements that pass a test function",
+    category: "JavaScript",
+  },
+  {
+    term: "reduce",
+    definition:
+      "Array method that executes a reducer function on each element, resulting in single output value",
+    category: "JavaScript",
+  },
+  {
+    term: "foreach",
+    definition:
+      "Array method that executes a provided function once for each array element",
+    category: "JavaScript",
+  },
+  {
+    term: "getter",
+    definition:
+      "A method that gets the value of a property using the 'get' keyword",
+    category: "JavaScript",
+  },
+  {
+    term: "setter",
+    definition:
+      "A method that sets the value of a property using the 'set' keyword",
+    category: "JavaScript",
+  },
+  {
+    term: "proxy",
+    definition:
+      "Allows you to intercept and customize operations on objects like property lookup and assignment",
+    category: "JavaScript",
+  },
+  {
+    term: "reflect",
+    definition:
+      "Provides methods for interceptable JavaScript operations like property access and function calls",
+    category: "JavaScript",
+  },
+  {
+    term: "generator",
+    definition:
+      "A function that can be paused and resumed, yielding multiple values over time",
+    category: "JavaScript",
+  },
+  {
+    term: "iterator",
+    definition:
+      "An object that implements the iterator protocol with a next() method",
+    category: "JavaScript",
+  },
+  {
+    term: "symbol",
+    definition:
+      "A primitive data type used to create unique identifiers for object properties",
     category: "JavaScript",
   },
 ];
@@ -183,7 +328,6 @@ const reactTerms: Term[] = [
         title: "React Components Masterclass - My Series",
         url: "https://youtu.be/Tn6-PIqc4OM",
         type: "youtube",
-
         description: "Everything about React components",
       },
     ],
@@ -199,7 +343,6 @@ const reactTerms: Term[] = [
         title: "JSX Deep Dive - My React Basics",
         url: "https://youtu.be/7fPXI_MnBOY",
         type: "youtube",
-
         description: "Understanding JSX syntax and best practices",
       },
     ],
@@ -220,7 +363,6 @@ const reactTerms: Term[] = [
         title: "React Hooks Complete Guide - My Series",
         url: "https://youtu.be/TNhaISOUy6Q",
         type: "youtube",
-
         description: "Complete guide to all React hooks",
       },
     ],
@@ -258,6 +400,127 @@ const reactTerms: Term[] = [
     definition: "A way to access DOM nodes or React elements directly",
     category: "React",
   },
+  // New React Terms
+  {
+    term: "useeffect",
+    definition:
+      "React hook that lets you perform side effects in functional components",
+    category: "React",
+  },
+  {
+    term: "usestate",
+    definition:
+      "React hook that lets you add state to functional components",
+    category: "React",
+  },
+  {
+    term: "usereducer",
+    definition:
+      "React hook for managing complex state logic through a reducer function",
+    category: "React",
+  },
+  {
+    term: "usecallback",
+    definition:
+      "React hook that returns a memoized callback function to optimize performance",
+    category: "React",
+  },
+  {
+    term: "usememo",
+    definition:
+      "React hook that memoizes expensive calculations to optimize performance",
+    category: "React",
+  },
+  {
+    term: "usecontext",
+    definition:
+      "React hook that lets you subscribe to React context without nesting",
+    category: "React",
+  },
+  {
+    term: "useref",
+    definition:
+      "React hook that returns a mutable ref object with a .current property",
+    category: "React",
+  },
+  {
+    term: "custom hook",
+    definition:
+      "A JavaScript function that starts with 'use' and calls other hooks",
+    category: "React",
+  },
+  {
+    term: "react router",
+    definition:
+      "A library for handling navigation and routing in React applications",
+    category: "React",
+  },
+  {
+    term: "higher order component",
+    definition:
+      "A function that takes a component and returns a new component with enhanced functionality",
+    category: "React",
+  },
+  {
+    term: "render prop",
+    definition:
+      "A technique for sharing code between components using a prop whose value is a function",
+    category: "React",
+  },
+  {
+    term: "controlled component",
+    definition:
+      "A component whose form data is handled by React state",
+    category: "React",
+  },
+  {
+    term: "uncontrolled component",
+    definition:
+      "A component that maintains its own internal state instead of using React state",
+    category: "React",
+  },
+  {
+    term: "key prop",
+    definition:
+      "A special attribute that helps React identify which items have changed in lists",
+    category: "React",
+  },
+  {
+    term: "fragment",
+    definition:
+      "A way to group multiple elements without adding extra nodes to the DOM",
+    category: "React",
+  },
+  {
+    term: "portals",
+    definition:
+      "A way to render children into a DOM node outside of the parent component's hierarchy",
+    category: "React",
+  },
+  {
+    term: "error boundary",
+    definition:
+      "React components that catch JavaScript errors in their child component tree",
+    category: "React",
+  },
+  {
+    term: "suspense",
+    definition:
+      "A React component that lets you display fallback content while waiting for async operations",
+    category: "React",
+  },
+  {
+    term: "lazy loading",
+    definition:
+      "A technique to defer loading of components until they are actually needed",
+    category: "React",
+  },
+  {
+    term: "reconciliation",
+    definition:
+      "The process React uses to update the DOM efficiently by comparing virtual DOM trees",
+    category: "React",
+  },
 ];
 
 // Frontend Terms
@@ -273,7 +536,6 @@ const frontendTerms: Term[] = [
         title: "Responsive Design Masterclass - My Tutorial",
         url: "https://youtu.be/srvUrASNdxk",
         type: "youtube",
-
         description: "Everything you need to know about responsive design",
       },
       {
@@ -294,7 +556,6 @@ const frontendTerms: Term[] = [
         title: "Webpack From Scratch - My Tutorial Series",
         url: "https://youtu.be/MpGLUVbqoYQ",
         type: "youtube",
-
         description: "Learn Webpack from the ground up",
       },
     ],
@@ -373,6 +634,127 @@ const frontendTerms: Term[] = [
       "A fast development build tool that bundles code using native ES modules",
     category: "Frontend",
   },
+  // New Frontend Terms
+  {
+    term: "sass",
+    definition:
+      "Syntactically Awesome Style Sheets - a CSS preprocessor with variables and functions",
+    category: "Frontend",
+  },
+  {
+    term: "less",
+    definition:
+      "A CSS preprocessor that extends CSS with dynamic behavior like variables and mixins",
+    category: "Frontend",
+  },
+  {
+    term: "postcss",
+    definition:
+      "A tool for transforming CSS with JavaScript plugins",
+    category: "Frontend",
+  },
+  {
+    term: "media queries",
+    definition:
+      "CSS technique to apply different styles for different media types and screen sizes",
+    category: "Frontend",
+  },
+  {
+    term: "breakpoint",
+    definition:
+      "Specific screen widths where responsive design layout changes occur",
+    category: "Frontend",
+  },
+  {
+    term: "mobile first",
+    definition:
+      "Design approach starting with mobile devices and progressively enhancing for larger screens",
+    category: "Frontend",
+  },
+  {
+    term: "progressive enhancement",
+    definition:
+      "Building web content that works on all browsers, then adding advanced features",
+    category: "Frontend",
+  },
+  {
+    term: "graceful degradation",
+    definition:
+      "Building for modern browsers first, ensuring basic functionality on older browsers",
+    category: "Frontend",
+  },
+  {
+    term: "polyfill",
+    definition:
+      "Code that provides modern functionality on older browsers that lack support",
+    category: "Frontend",
+  },
+  {
+    term: "transpilation",
+    definition:
+      "Converting code from one version or language to another, like ES6 to ES5",
+    category: "Frontend",
+  },
+  {
+    term: "bundler",
+    definition:
+      "A tool that combines multiple files and dependencies into one or more output files",
+    category: "Frontend",
+  },
+  {
+    term: "hot reload",
+    definition:
+      "Development feature that automatically updates the browser when code changes",
+    category: "Frontend",
+  },
+  {
+    term: "pwa",
+    definition:
+      "Progressive Web App - web applications that work offline and feel like native apps",
+    category: "Frontend",
+  },
+  {
+    term: "service worker",
+    definition:
+      "JavaScript that runs in the background to enable offline functionality and push notifications",
+    category: "Frontend",
+  },
+  {
+    term: "web workers",
+    definition:
+      "JavaScript that runs on background threads separate from the main UI thread",
+    category: "Frontend",
+  },
+  {
+    term: "lazy loading",
+    definition:
+      "Loading content only when needed to improve initial page load performance",
+    category: "Frontend",
+  },
+  {
+    term: "code splitting",
+    definition:
+      "Splitting code into smaller chunks that can be loaded on demand",
+    category: "Frontend",
+  },
+  {
+    term: "critical css",
+    definition:
+      "The minimal CSS required to render above-the-fold content",
+    category: "Frontend",
+  },
+  {
+    term: "css modules",
+    definition:
+      "A way to scope CSS locally to avoid global namespace collisions",
+    category: "Frontend",
+  },
+  {
+    term: "styled components",
+    definition:
+      "A library for writing CSS in JavaScript using template literals",
+    category: "Frontend",
+  },
 ];
 
 // Backend Terms
@@ -388,7 +770,6 @@ const backendTerms: Term[] = [
         title: "Building REST APIs - My Complete Guide",
         url: "https://youtu.be/0oXYLzuucwE",
         type: "youtube",
-
         description: "Complete tutorial on building REST APIs from scratch",
       },
       {
@@ -410,7 +791,6 @@ const backendTerms: Term[] = [
         title: "Express Middleware Deep Dive - My Tutorial",
         url: "https://youtu.be/lY6icfhap2o",
         type: "youtube",
-
         description: "Understanding middleware in Express.js",
       },
     ],
@@ -497,8 +877,128 @@ const backendTerms: Term[] = [
     definition: "Distributes incoming network traffic across multiple servers",
     category: "Backend",
   },
+  // New Backend Terms
+  {
+    term: "graphql",
+    definition:
+      "A query language for APIs that allows clients to request exactly the data they need",
+    category: "Backend",
+  },
+  {
+    term: "orm",
+    definition:
+      "Object-Relational Mapping - technique for converting data between incompatible systems",
+    category: "Backend",
+  },
+  {
+    term: "mongodb",
+    definition:
+      "A document-oriented NoSQL database program using JSON-like documents",
+    category: "Backend",
+  },
+  {
+    term: "redis",
+    definition:
+      "An in-memory data structure store used as database, cache, and message broker",
+    category: "Backend",
+  },
+  {
+    term: "docker",
+    definition:
+      "Platform for developing, shipping, and running applications in containers",
+    category: "Backend",
+  },
+  {
+    term: "kubernetes",
+    definition:
+      "Container orchestration platform for automating deployment and scaling",
+    category: "Backend",
+  },
+  {
+    term: "microservices",
+    definition:
+      "Architectural approach where applications are built as a suite of small services",
+    category: "Backend",
+  },
+  {
+    term: "monolith",
+    definition:
+      "Software architecture where all components are interconnected and interdependent",
+    category: "Backend",
+  },
+  {
+    term: "serverless",
+    definition:
+      "Cloud computing model where the provider manages server infrastructure automatically",
+    category: "Backend",
+  },
+  {
+    term: "lambda",
+    definition:
+      "AWS service for running code without provisioning or managing servers",
+    category: "Backend",
+  },
+  {
+    term: "api gateway",
+    definition:
+      "Management tool for APIs that acts as a reverse proxy to accept API calls",
+    category: "Backend",
+  },
+  {
+    term: "rate limiting",
+    definition:
+      "Technique to control the rate of traffic sent or received by a network",
+    category: "Backend",
+  },
+  {
+    term: "caching",
+    definition:
+      "Storing frequently accessed data in temporary storage for faster retrieval",
+    category: "Backend",
+  },
+  {
+    term: "cdn",
+    definition:
+      "Content Delivery Network - geographically distributed servers for faster content delivery",
+    category: "Backend",
+  },
+  {
+    term: "ssl",
+    definition:
+      "Secure Sockets Layer - protocol for establishing encrypted links between servers and clients",
+    category: "Backend",
+  },
+  {
+    term: "https",
+    definition:
+      "HTTP Secure - HTTP protocol with encryption using SSL/TLS",
+    category: "Backend",
+  },
+  {
+    term: "oauth",
+    definition:
+      "Open standard for access delegation commonly used for token-based authentication",
+    category: "Backend",
+  },
+  {
+    term: "crud",
+    definition:
+      "Create, Read, Update, Delete - basic operations for persistent storage",
+    category: "Backend",
+  },
+  {
+    term: "indexing",
+    definition:
+      "Database optimization technique that improves query performance",
+    category: "Backend",
+  },
+  {
+    term: "sharding",
+    definition:
+      "Database partitioning technique that splits data across multiple servers",
+    category: "Backend",
+  },
 ];
-
 // Interview Terms
 const interviewTerms: Term[] = [
   {
