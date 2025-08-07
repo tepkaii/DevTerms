@@ -13,6 +13,7 @@ export interface Term {
   definition: string;
   category: string;
   resources?: LearningResource[];
+  originalTerm?: string; // Added for compound term tracking
 }
 
 export interface WordItem {
@@ -20,12 +21,13 @@ export interface WordItem {
   isDevTerm: boolean;
   definition?: string;
   resources?: LearningResource[];
+  category?: string; // Added - used in sentenceGenerator.ts line 69
   isCompleted: boolean;
   isCorrect: boolean;
   userInput: string;
 
-  // Add missing properties for compound terms
-  originalTerm?: string;
+  // Compound term properties
+  originalTerm?: string; // Used in sentenceGenerator.ts line 70
   isCompound?: boolean;
   compoundIndex?: number;
   compoundTotal?: number;
@@ -37,16 +39,16 @@ export interface Stats {
   mistakes: number;
   totalTyped: number;
   correctWords: number;
-  timeRemaining: number;
+  timeRemaining?: number; // Optional - checked with !== undefined
   wordsCompleted: number;
 
   // Enhanced stats for Net WPM calculation
-  totalCharacters: number; // Made required since it's used in calculations
-  correctCharacters: number; // Made required
-  incorrectCharacters: number; // Made required
-  uncorrectedErrors: number; // Made required
-  elapsedTime: number; // Made required
-  sessionDuration: number; // Made required
+  totalCharacters?: number; // Optional - has fallback logic
+  correctCharacters?: number; // Optional - has fallback logic  
+  incorrectCharacters?: number; // Optional - has fallback logic
+  uncorrectedErrors?: number; // Optional - has fallback logic
+  elapsedTime?: number; // Optional - has fallback logic
+  sessionDuration?: number; // Optional - has fallback logic
 }
 
 export type SessionDuration = 60 | 120 | 180; // seconds

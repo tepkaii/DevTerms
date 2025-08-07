@@ -1,3 +1,4 @@
+// app/lib/terms/backend.ts
 import { Term } from "../types";
 
 // Backend Terms
