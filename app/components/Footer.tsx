@@ -15,6 +15,13 @@ export default function Footer() {
         <Link href="/terms" className="hover:underline">
           Terms
         </Link>
+        <Link
+          target="_blank"
+          href="https://x.com/tepkaii"
+          className="hover:underline"
+        >
+          Support
+        </Link>
         {/* <a
           href="https://github.com/your-repo"
           target="_blank"

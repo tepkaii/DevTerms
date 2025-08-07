@@ -2,6 +2,7 @@
 // @ts-nocheck
 // @ts-nocheck
 
+
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -15,7 +16,6 @@ import {
   SoundHigh,
   SoundMin,
   SoundOff,
-  Timer,
   WarningHexagon,
 } from "iconoir-react";
 import { SpeechService } from "../lib/speechUtils";
@@ -235,7 +235,7 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
           </Card>
 
           {/* Adjusted WPM (AWPM) - Primary Performance Metric */}
-          <Card className="border-border ring-2 ring-purple-200">
+          <Card className="border-border">
             <CardContent className="pt-4">
               <div className="flex items-center gap-2 mb-2">
                 <Medal className="h-4 w-4 text-purple-600" />

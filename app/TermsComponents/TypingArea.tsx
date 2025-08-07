@@ -1,3 +1,7 @@
+// dd/app/TermsComponents/TypingArea.tsx
+// @ts-nocheck
+// @ts-nocheck
+
 import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -586,10 +590,9 @@ const TypingArea: React.FC<TypingAreaProps> = ({
         </div>
       </div>
 
-      {/* Sentence Display - Better mobile layout */}
-      <Card className="border-border">
+      {/* Sentence Display */}
+      <Card className="border-border relative">
         <CardContent className="p-4 sm:p-6">
-          {/* Words with proper wrapping and spacing */}
           <div className="text-base sm:text-lg leading-relaxed mb-6 min-h-[100px] sm:min-h-[120px]">
             <div className="flex flex-wrap items-center gap-1">
               {words.map((word, index) => (
@@ -644,7 +647,7 @@ const TypingArea: React.FC<TypingAreaProps> = ({
             </div>
           </div>
 
-          {/* Current Word Info - Mobile optimized */}
+          {/* Current Word Info - Only show if session is active */}
           {currentWord && (
             <div className="mb-4 p-3 bg-muted rounded-lg border border-border">
               <div className="flex items-start justify-between gap-2 mb-2">
@@ -678,6 +681,13 @@ const TypingArea: React.FC<TypingAreaProps> = ({
                   {currentWord.definition}
                 </div>
               )}
+            </div>
+          )}
+
+          {/* Session Complete Overlay */}
+          {(sessionCompleted || isTimerExpired) && (
+            <div className="absolute inset-0 bg-black/10 backdrop-blur-sm flex flex-col items-center justify-center rounded-lg">
+              <h2 className="text-2xl font-bold mb-4">🎉 Session Complete!</h2>
             </div>
           )}
 
