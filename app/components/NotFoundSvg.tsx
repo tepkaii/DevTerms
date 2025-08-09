@@ -1,3 +1,4 @@
+// app/components/NotFoundSvg.tsx
 import React from "react";
 
 const NotFoundSvg = () => {

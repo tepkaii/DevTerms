@@ -1,4 +1,5 @@
-// ConfigurationDialog.tsx
+// app/components/ConfigurationDialog.tsx
+
 "use client";
 
 import React, { useState } from "react";

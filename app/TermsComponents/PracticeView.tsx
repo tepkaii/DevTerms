@@ -14,6 +14,7 @@ import { devTerms, categories } from "../lib/terms";
 import Image from "next/image";
 import Link from "next/link";
 import { NavArrowDown } from "iconoir-react";
+import Loading from "../components/loading";
 
 const PracticeView: React.FC = () => {
   // Configuration state - start with all categories selected
@@ -21,6 +22,9 @@ const PracticeView: React.FC = () => {
     categories.filter((cat) => cat !== "All")
   );
   const [duration, setDuration] = useState<SessionDuration>(60);
+
+  // Add loading delay state
+  const [hasWaitedForLoad, setHasWaitedForLoad] = useState(false);
 
   // Get filtered terms based on selected categories
   const getFilteredTerms = useCallback((): Term[] => {
@@ -72,6 +76,15 @@ const PracticeView: React.FC = () => {
   });
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Add loading delay effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setHasWaitedForLoad(true);
+    }, 1000); // 2 second delay
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Initialize filtered terms and sentence generator
   useEffect(() => {
@@ -323,55 +336,63 @@ const PracticeView: React.FC = () => {
 
   const practizedTerms = sentenceGenerator?.getUsedOriginalTerms() || [];
 
-  // Don't render until we have terms and generator
-  if (filteredTerms.length === 0 || !sentenceGenerator) {
-    return (
-      <div className="min-h-screen bg-background p-6">
-        <div className="max-w-6xl mx-auto">
-          <header className="flex items-center justify-between mb-10">
-            <Link href="/" className="flex items-center gap-2">
-              <Image
-                src="/dt-logo.png"
-                alt="DevTerms Logo"
-                width={32}
-                height={32}
-                className="h-8 w-8"
-                priority
-              />
-              <h1 className="text-xl font-bold text-foreground">DevTerms</h1>
-            </Link>
+  // Show loading or wait state before showing "no terms" message
+  if (!hasWaitedForLoad || filteredTerms.length === 0 || !sentenceGenerator) {
+    // If we haven't waited yet, show a minimal loading state
+    if (!hasWaitedForLoad) {
+      return <Loading />;
+    }
 
-            <ConfigurationDialog
-              currentCategories={selectedCategories}
-              currentDuration={duration}
-              onConfigurationChange={handleConfigurationChange}
-            >
-              <Button
-                variant="secondary"
-                size="sm"
-                className="text-lg px-4 py-2"
+    // After waiting, show the "no terms" message if needed
+    if (filteredTerms.length === 0 || !sentenceGenerator) {
+      return (
+        <div className="min-h-screen bg-background p-6">
+          <div className="max-w-6xl mx-auto">
+            <header className="flex items-center justify-between mb-10">
+              <Link href="/" className="flex items-center gap-2">
+                <Image
+                  src="/dt-logo.png"
+                  alt="DevTerms Logo"
+                  width={32}
+                  height={32}
+                  className="h-8 w-8"
+                  priority
+                />
+                <h1 className="text-xl font-bold text-foreground">DevTerms</h1>
+              </Link>
+
+              <ConfigurationDialog
+                currentCategories={selectedCategories}
+                currentDuration={duration}
+                onConfigurationChange={handleConfigurationChange}
               >
-                Configure Practice
-              </Button>
-            </ConfigurationDialog>
-          </header>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="text-lg px-4 py-2"
+                >
+                  Configure Practice
+                </Button>
+              </ConfigurationDialog>
+            </header>
 
-          <div className="text-center py-20">
-            <h2 className="text-xl font-semibold mb-4">No terms available</h2>
-            <p className="text-muted-foreground mb-6">
-              Please select at least one category to start practicing.
-            </p>
-            <ConfigurationDialog
-              currentCategories={selectedCategories}
-              currentDuration={duration}
-              onConfigurationChange={handleConfigurationChange}
-            >
-              <Button>Configure Categories</Button>
-            </ConfigurationDialog>
+            <div className="text-center py-20">
+              <h2 className="text-xl font-semibold mb-4">No terms available</h2>
+              <p className="text-muted-foreground mb-6">
+                Please select at least one category to start practicing.
+              </p>
+              <ConfigurationDialog
+                currentCategories={selectedCategories}
+                currentDuration={duration}
+                onConfigurationChange={handleConfigurationChange}
+              >
+                <Button>Configure Categories</Button>
+              </ConfigurationDialog>
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 
   return (

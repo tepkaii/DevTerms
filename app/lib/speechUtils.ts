@@ -1,3 +1,4 @@
+// app/lib/speechUtils.ts
 export class SpeechService {
   private synth: SpeechSynthesis | null = null;
   private currentUtterance: SpeechSynthesisUtterance | null = null;

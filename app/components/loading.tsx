@@ -1,3 +1,5 @@
+// app/components/loading.tsx
+
 "use client";
 import Lottie from "lottie-react";
 import animationData from "../../public/assets/DT-Logo.json";

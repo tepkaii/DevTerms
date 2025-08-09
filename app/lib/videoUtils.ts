@@ -1,4 +1,4 @@
-// utils/videoUtils.ts
+// app/lib/videoUtils.ts
 
 export const extractYouTubeVideoId = (url: string): string | null => {
   const patterns = [

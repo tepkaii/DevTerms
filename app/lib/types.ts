@@ -1,4 +1,4 @@
-// types.ts
+// app/lib/types
 export interface LearningResource {
   id: string;
   title: string;
@@ -44,7 +44,7 @@ export interface Stats {
 
   // Enhanced stats for Net WPM calculation
   totalCharacters?: number; // Optional - has fallback logic
-  correctCharacters?: number; // Optional - has fallback logic  
+  correctCharacters?: number; // Optional - has fallback logic
   incorrectCharacters?: number; // Optional - has fallback logic
   uncorrectedErrors?: number; // Optional - has fallback logic
   elapsedTime?: number; // Optional - has fallback logic

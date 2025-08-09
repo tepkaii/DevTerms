@@ -3,7 +3,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Play, FileText, ExternalLink, BookOpen } from "lucide-react";
+import { Play } from "lucide-react";
 import { YoutubeSolid } from "iconoir-react";
 import type { Term } from "../lib/types";
 import {
@@ -24,20 +24,7 @@ const ResourcesSection: React.FC<ResourcesSectionProps> = ({
   isVisible,
   onToggle,
 }) => {
-  const getResourceIcon = (type: any) => {
-    switch (type) {
-      case "youtube":
-        return <YoutubeSolid className="h-4 w-4 text-red-500" />;
-      case "personal":
-        return <Play className="h-4 w-4 text-purple-500" />;
-      case "article":
-        return <FileText className="h-4 w-4 text-blue-500" />;
-      case "documentation":
-        return <BookOpen className="h-4 w-4 text-green-500" />;
-      default:
-        return <ExternalLink className="h-4 w-4" />;
-    }
-  };
+
 
   const getResourceColor = (type: any) => {
     switch (type) {

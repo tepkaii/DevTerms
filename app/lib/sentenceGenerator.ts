@@ -1,4 +1,4 @@
-// sentenceGenerator.ts | Engine
+// app/lib/sentenceGenerator | Engine
 // @ts-nocheck
 // @ts-nocheck
 
